@@ -11,5 +11,27 @@ main{
     width: 500px;
     margin: auto;
     padding: 10px;
-    box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.349);
+    box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.473);
+}
+h1{
+    font-size: 2em;
+    color: blue;
+}
+h2{
+    font-size: 1.5em;
+    color: blue;
+}
+
+img.lado{
+    float: right;
+}
+
+a{
+    text-decoration: none;
+    font-weight: bold;
+    color: blue;
+}
+a:hover{
+    text-decoration: underline;
+    color: blue;
 }
