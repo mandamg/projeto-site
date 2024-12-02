@@ -83,8 +83,12 @@ document.addEventListener("DOMContentLoaded", () => {
     winner.lastWin = today.toISOString();
     history.unshift(winner.name); // Adiciona ao histórico
     updateParticipantsBubbles();
-    updateHistory();
-    setTimeout(() => alert(`O vencedor é ${winner.name}!`), 1000);
+
+    // Delay de 2 segundos para mostrar o vencedor no histórico
+    setTimeout(() => {
+      updateHistory();
+      setTimeout(() => alert(`O vencedor é ${winner.name}!`), 500);
+    }, 2000);
   });
 
   // Limpa histórico
