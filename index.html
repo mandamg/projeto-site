@@ -11,17 +11,17 @@
     <div id="loginPage">
         <h2>Login</h2>
         <input type="password" id="password" placeholder="Digite a senha" />
-        <button onclick="login()">Entrar</button>
+        <button onclick="login()" class="button">Entrar</button>
         <p id="error" style="color: red; display: none;">Senha incorreta</p>
     </div>
 
     <!-- Página Principal -->
     <div id="mainPage" class="hidden">
         <h2>Sorteio</h2>
-        <button onclick="mostrarAdicionarParticipante()">Adicionar Participante</button> <!-- Botão para adicionar participante -->
-        <button onclick="limparHistorico()">Limpar Histórico</button> <!-- Botão para limpar histórico -->
+        <button onclick="mostrarAdicionarParticipante()" class="button">Adicionar Participante</button> <!-- Botão para adicionar participante -->
+        <button onclick="limparHistorico()" class="button">Limpar Histórico</button> <!-- Botão para limpar histórico -->
         <br><br>
-        <button onclick="sortear()">Sortear</button>
+        <button onclick="sortear()" class="button">Sortear</button>
 
         <!-- Exibição do ganhador -->
         <div id="ganhadorContainer" class="hidden">
@@ -41,7 +41,7 @@
                 <span class="close" onclick="fecharAdicionarParticipante()">&times;</span>
                 <h3>Adicionar Participante</h3>
                 <input type="text" id="nome" placeholder="Digite o nome" />
-                <button onclick="adicionarNome()">Adicionar</button>
+                <button onclick="adicionarNome()" class="button">Adicionar</button>
             </div>
         </div>
 
@@ -51,7 +51,7 @@
                 <span class="close" onclick="fecharConfirmarLimpeza()">&times;</span>
                 <h3>Confirmar Limpeza de Histórico</h3>
                 <input type="password" id="senhaLimpeza" placeholder="Digite a senha para confirmar" />
-                <button onclick="confirmarLimpeza()">Limpar Histórico</button>
+                <button onclick="confirmarLimpeza()" class="button">Limpar Histórico</button>
             </div>
         </div>
     </div>
@@ -107,7 +107,7 @@
 
                 // Exibe o ganhador
                 document.getElementById('ganhador').textContent = ganhadorAleatorio;
-                document.getElementById('ganhadorContainer').style.display = 'block';
+                document.getElementById('ganhadorContainer').style.display = 'block'; // Aparece o ganhador
                 historico.push(ganhador);
                 localStorage.setItem('historico', JSON.stringify(historico));
                 carregarHistorico();
@@ -123,6 +123,7 @@
             participantes.forEach(participante => {
                 const li = document.createElement('li');
                 li.textContent = participante;
+                li.classList.add('hover-effect');
                 listElement.appendChild(li);
             });
         }
