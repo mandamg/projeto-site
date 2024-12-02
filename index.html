@@ -20,10 +20,16 @@
         <button onclick="limparHistorico()">Limpar Histórico</button> <!-- Botão para limpar histórico -->
         <br><br>
         <button onclick="sortear()">Sortear</button>
-        <h3>Ganhador:</h3>
-        <p id="ganhador" class="winner"></p>
+
+        <!-- Exibição do ganhador -->
+        <div id="ganhadorContainer" class="hidden">
+            <div class="winnerTitle">Ganhador</div>
+            <p id="ganhador" class="winner"></p>
+        </div>
+
         <h3>Participantes:</h3>
         <ul id="participantesList"></ul>
+
         <h3>Histórico de Ganhadores:</h3>
         <ul id="historico"></ul>
 
@@ -80,52 +86,47 @@
             const dataAtual = new Date();
             const ganhadoresRecentes = historico.filter(ganhador => {
                 const dataGanhou = new Date(ganhador.data);
-                return (dataAtual - dataGanhou) / (1000 * 3600 * 24) <= 2;
+                const diffDias = (dataAtual - dataGanhou) / (1000 * 3600 * 24);
+                return diffDias <= 2;
             });
 
-            const participantesDisponiveis = participantes.filter(nome => {
+            const candidatos = participantes.filter(nome => {
                 return !ganhadoresRecentes.some(ganhador => ganhador.nome === nome);
             });
 
-            if (participantesDisponiveis.length === 0) {
-                alert('Nenhum participante disponível para sorteio!');
-                return;
+            if (candidatos.length > 0) {
+                const ganhadorAleatorio = candidatos[Math.floor(Math.random() * candidatos.length)];
+                const ganhador = { nome: ganhadorAleatorio, data: new Date() };
+
+                // Exibe o ganhador
+                document.getElementById('ganhador').textContent = ganhadorAleatorio;
+                document.getElementById('ganhadorContainer').classList.remove('hidden');
+                historico.push(ganhador);
+                localStorage.setItem('historico', JSON.stringify(historico));
+                carregarHistorico();
+            } else {
+                alert('Todos os participantes recentes já ganharam.');
             }
-
-            const ganhador = participantesDisponiveis[Math.floor(Math.random() * participantesDisponiveis.length)];
-            document.getElementById('ganhador').textContent = ganhador;
-
-            historico.push({ nome: ganhador, data: new Date() });
-            localStorage.setItem('historico', JSON.stringify(historico));
-            carregarHistorico();
         }
 
         function carregarParticipantes() {
-            const participantesList = document.getElementById('participantesList');
-            participantesList.innerHTML = '';
-            if (participantes.length > 0) {
-                participantes.forEach(nome => {
-                    const li = document.createElement('li');
-                    li.textContent = nome;
-                    participantesList.appendChild(li);
-                });
-            } else {
-                participantesList.innerHTML = '<li>Sem participantes no sorteio.</li>';
-            }
+            const listElement = document.getElementById('participantesList');
+            listElement.innerHTML = '';
+            participantes.forEach(participante => {
+                const li = document.createElement('li');
+                li.textContent = participante;
+                listElement.appendChild(li);
+            });
         }
 
         function carregarHistorico() {
-            const historicoUl = document.getElementById('historico');
-            historicoUl.innerHTML = '';
-            if (historico.length > 0) {
-                historico.forEach(ganhador => {
-                    const li = document.createElement('li');
-                    li.textContent = `${ganhador.nome} - ${new Date(ganhador.data).toLocaleDateString()}`;
-                    historicoUl.appendChild(li);
-                });
-            } else {
-                historicoUl.innerHTML = '<li>Sem histórico de ganhadores.</li>';
-            }
+            const historicoElement = document.getElementById('historico');
+            historicoElement.innerHTML = '';
+            historico.forEach(ganhador => {
+                const li = document.createElement('li');
+                li.textContent = `${ganhador.nome} - ${new Date(ganhador.data).toLocaleString()}`;
+                historicoElement.appendChild(li);
+            });
         }
 
         function mostrarAdicionarParticipante() {
@@ -145,15 +146,15 @@
         }
 
         function confirmarLimpeza() {
-            const senhaInput = document.getElementById('senhaLimpeza').value;
-            if (senhaInput === senhaCorreta) {
+            const senhaLimpezaInput = document.getElementById('senhaLimpeza').value;
+            if (senhaLimpezaInput === senhaCorreta) {
+                localStorage.removeItem('historico');
                 historico = [];
-                localStorage.setItem('historico', JSON.stringify(historico));
                 carregarHistorico();
-                alert('Histórico limpo com sucesso!');
                 fecharConfirmarLimpeza();
+                alert('Histórico limpo!');
             } else {
-                alert('Senha incorreta!');
+                alert('Senha incorreta');
             }
         }
     </script>
