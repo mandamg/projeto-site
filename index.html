@@ -1,47 +1,57 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BRASIL - Sorteio</title>
-    <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BRASIL Guilda - Sorteios</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="login-screen" id="login-screen">
-        <h1 class="title">BRASIL</h1>
-        <div class="dragon-placeholder">
-            <!-- Adicione aqui a imagem do dragão -->
-            <p>(Dragão aqui)</p>
-        </div>
-        <input type="password" id="password" placeholder="Digite sua senha">
-        <button class="btn login-btn" onclick="checkPassword()">Entrar</button>
+  <div id="login-page">
+    <h1 class="title">BRASIL</h1>
+    <div id="dragon-symbol">
+      <!-- Adicione o símbolo do dragão aqui -->
+      <img src="dragon.png" alt="Símbolo do Dragão" />
     </div>
+    <form id="password-form">
+      <input type="password" id="password" placeholder="Digite a senha">
+      <button type="submit">Entrar</button>
+    </form>
+    <div id="history-preview">
+      <h2>Últimos Ganhadores</h2>
+      <ul id="recent-history"></ul>
+    </div>
+  </div>
 
-    <div class="main-content hidden" id="main-content">
-        <header>
-            <h1>Sorteio da Guilda BRASIL</h1>
-        </header>
-        <main>
-            <div class="participants">
-                <h2>Participantes</h2>
-                <div class="grid" id="participant-grid"></div>
-                <div class="controls">
-                    <input type="text" id="new-participant" placeholder="Adicionar participante">
-                    <button class="round-btn add" onclick="addParticipant()">+</button>
-                    <button class="round-btn remove" onclick="removeParticipant()">-</button>
-                </div>
-            </div>
-            <div class="history">
-                <h2>Histórico de Ganhadores</h2>
-                <ul id="winners-list"></ul>
-                <button class="btn" onclick="showMoreWinners()">Ver mais</button>
-            </div>
-        </main>
-        <footer>
-            <button class="btn" onclick="clearHistory()">Limpar Histórico</button>
-            <button class="btn" onclick="runDraw()">Sorteio</button>
-        </footer>
-    </div>
-    <script src="scripts.js"></script>
+  <div id="main-page" style="display: none;">
+    <header>
+      <h1>BRASIL Guilda - Sorteios</h1>
+    </header>
+    <main>
+      <div id="participants-section">
+        <h2>Participantes</h2>
+        <div id="participants-grid"></div>
+        <div class="buttons">
+          <button class="icon-button" id="add-participant-btn">
+            <span>+</span>
+          </button>
+          <button class="icon-button" id="remove-participant-btn">
+            <span>-</span>
+          </button>
+        </div>
+      </div>
+      <div id="action-section">
+        <button id="draw-btn">Sortear</button>
+      </div>
+      <div id="history-section">
+        <h2>Histórico de Ganhadores</h2>
+        <ul id="history-list"></ul>
+        <button id="view-more-btn">Ver Mais</button>
+        <button id="clear-history-btn">Limpar Histórico</button>
+      </div>
+    </main>
+  </div>
+
+  <script src="script.js"></script>
 </body>
 </html>
