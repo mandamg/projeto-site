@@ -1,30 +1,113 @@
-body { 
-    font-family: Arial, sans-serif; 
-    margin: 20px; 
+/* Cor de fundo do corpo */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #4fa3f7; /* Azul Claro */
+    color: #fff; /* Texto branco */
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    flex-direction: column;
 }
-.hidden { 
-    display: none; 
+
+/* Estilo da página de login */
+#loginPage {
+    background-color: #003366; /* Azul Escuro */
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+    text-align: center;
 }
-.winner { 
-    color: green; 
-    font-weight: bold; 
+
+/* Estilo da página principal */
+#mainPage {
+    background-color: #0066cc; /* Azul Médio */
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+    display: none;
+    text-align: center;
+    width: 80%;
+    max-width: 600px;
 }
+
+/* Input e Botões */
+input[type="password"], input[type="text"], button {
+    padding: 10px;
+    margin-top: 10px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: none;
+    outline: none;
+}
+
+input[type="password"], input[type="text"] {
+    width: 80%;
+    max-width: 300px;
+    background-color: #fff;
+    color: #003366;
+}
+
 button {
-    padding: 10px;
-    margin-top: 10px;
     cursor: pointer;
+    background-color: #003366; /* Azul Escuro */
+    color: #fff;
+    width: 80%;
+    max-width: 300px;
+    transition: background-color 0.3s;
 }
-input {
-    padding: 10px;
-    margin-top: 10px;
+
+button:hover {
+    background-color: #002244; /* Azul mais escuro */
 }
-h2 {
-    color: #333;
+
+/* Estilo dos títulos */
+h2, h3 {
+    color: #fff;
 }
+
+/* Lista de participantes */
 ul {
     list-style-type: none;
     padding-left: 0;
+    margin-top: 10px;
 }
+
 li {
+    background-color: #003366; /* Azul Escuro */
+    padding: 10px;
     margin-bottom: 5px;
+    border-radius: 5px;
+    color: #fff;
+    font-size: 18px;
+}
+
+/* Ganhador */
+.winner {
+    color: #4fa3f7; /* Azul Claro */
+    font-weight: bold;
+    font-size: 20px;
+}
+
+/* Mensagens de erro */
+#error {
+    color: #ff6666; /* Vermelho claro */
+    margin-top: 10px;
+}
+
+/* Responsividade */
+@media (max-width: 600px) {
+    body {
+        padding: 10px;
+    }
+    #loginPage, #mainPage {
+        width: 100%;
+        padding: 20px;
+    }
+    input[type="password"], input[type="text"], button {
+        width: 100%;
+        max-width: none;
+    }
 }
