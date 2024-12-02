@@ -65,6 +65,16 @@ button:hover {
     display: none;
 }
 
+#ganhadorContainer {
+    display: none; /* Inicialmente escondido */
+    padding: 20px;
+    background: linear-gradient(45deg, #2980b9, #ecf0f1);
+    border: 2px solid #3498db;
+    margin-top: 20px;
+    border-radius: 10px;
+}
+
+
 /* Modal */
 .modal {
     display: none;
