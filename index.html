@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="styles.css"> <!-- Vincula o arquivo CSS -->
 </head>
 <body>
+    <!-- Página de Login -->
     <div id="loginPage">
         <h2>Login</h2>
         <input type="password" id="password" placeholder="Digite a senha" />
@@ -14,6 +15,7 @@
         <p id="error" style="color: red; display: none;">Senha incorreta</p>
     </div>
 
+    <!-- Página Principal -->
     <div id="mainPage" class="hidden">
         <h2>Sorteio</h2>
         <button onclick="mostrarAdicionarParticipante()">Adicionar Participante</button> <!-- Botão para adicionar participante -->
@@ -59,18 +61,22 @@
         let participantes = JSON.parse(localStorage.getItem('participantes')) || [];
         let historico = JSON.parse(localStorage.getItem('historico')) || [];
 
+        // Função de Login
         function login() {
             const passwordInput = document.getElementById('password').value;
+            const errorElement = document.getElementById('error');
+
             if (passwordInput === senhaCorreta) {
-                document.getElementById('loginPage').classList.add('hidden');
-                document.getElementById('mainPage').classList.remove('hidden');
+                document.getElementById('loginPage').style.display = 'none';
+                document.getElementById('mainPage').style.display = 'block';
                 carregarHistorico();
                 carregarParticipantes();
             } else {
-                document.getElementById('error').style.display = 'block';
+                errorElement.style.display = 'block';
             }
         }
 
+        // Função para adicionar participante
         function adicionarNome() {
             const nome = document.getElementById('nome').value.trim();
             if (nome && !participantes.includes(nome)) {
@@ -82,6 +88,7 @@
             }
         }
 
+        // Função para sortear um nome
         function sortear() {
             const dataAtual = new Date();
             const ganhadoresRecentes = historico.filter(ganhador => {
@@ -100,7 +107,7 @@
 
                 // Exibe o ganhador
                 document.getElementById('ganhador').textContent = ganhadorAleatorio;
-                document.getElementById('ganhadorContainer').classList.remove('hidden');
+                document.getElementById('ganhadorContainer').style.display = 'block';
                 historico.push(ganhador);
                 localStorage.setItem('historico', JSON.stringify(historico));
                 carregarHistorico();
@@ -109,6 +116,7 @@
             }
         }
 
+        // Função para carregar os participantes
         function carregarParticipantes() {
             const listElement = document.getElementById('participantesList');
             listElement.innerHTML = '';
@@ -119,6 +127,7 @@
             });
         }
 
+        // Função para carregar o histórico de ganhadores
         function carregarHistorico() {
             const historicoElement = document.getElementById('historico');
             historicoElement.innerHTML = '';
@@ -129,22 +138,27 @@
             });
         }
 
+        // Função para mostrar a aba de adicionar participante
         function mostrarAdicionarParticipante() {
             document.getElementById('adicionarParticipanteModal').style.display = 'block';
         }
 
+        // Função para fechar a aba de adicionar participante
         function fecharAdicionarParticipante() {
             document.getElementById('adicionarParticipanteModal').style.display = 'none';
         }
 
+        // Função para limpar o histórico
         function limparHistorico() {
             document.getElementById('confirmarLimpezaModal').style.display = 'block';
         }
 
+        // Função para fechar a confirmação de limpeza do histórico
         function fecharConfirmarLimpeza() {
             document.getElementById('confirmarLimpezaModal').style.display = 'none';
         }
 
+        // Função para confirmar a limpeza do histórico
         function confirmarLimpeza() {
             const senhaLimpezaInput = document.getElementById('senhaLimpeza').value;
             if (senhaLimpezaInput === senhaCorreta) {
