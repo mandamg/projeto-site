@@ -1,145 +1,86 @@
-/* Estilo geral */
 body {
-    font-family: 'Arial Rounded MT Bold', sans-serif;
-    background: linear-gradient(to bottom, #0A1E26, #18778C);
-    color: #22CCF2;
-    margin: 0;
-    padding: 0;
-    overflow-x: hidden;
+  margin: 0;
+  font-family: 'Arial', sans-serif;
+  background: linear-gradient(135deg, #0A1E26, #18778C);
+  color: white;
 }
 
-.hidden {
-    display: none;
-}
-
-/* Estilo da tela de login */
-.login-screen {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
-    text-align: center;
+h1, h2 {
+  text-align: center;
+  color: #22CCF2;
 }
 
 .title {
-    font-size: 3em;
-    color: #22CCF2;
-    border: 2px solid #22CCF2;
-    padding: 10px 20px;
-    border-radius: 10px;
+  font-size: 3rem;
+  border: 2px solid #22CCF2;
+  padding: 10px;
+  display: inline-block;
+  margin-bottom: 20px;
 }
 
-.dragon-placeholder {
-    margin: 20px;
-    color: #1DF2F2;
-    font-size: 1.5em;
+#dragon-symbol img {
+  display: block;
+  margin: 0 auto;
+  width: 100px;
 }
 
-input[type="password"] {
-    padding: 10px;
-    font-size: 1.2em;
-    margin-bottom: 20px;
-    border-radius: 5px;
-    border: 2px solid #18778C;
+button {
+  border: none;
+  background: #22CCF2;
+  color: #0A1E26;
+  padding: 10px 20px;
+  font-size: 1rem;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: transform 0.3s ease, background-color 0.3s ease;
 }
 
-.login-btn {
-    padding: 10px 20px;
-    font-size: 1.2em;
-    background-color: #1DF2F2;
-    border: none;
-    border-radius: 10px;
-    cursor: pointer;
-    transition: transform 0.3s;
+button:hover {
+  transform: scale(1.1);
+  background: #1DF2F2;
 }
 
-.login-btn:hover {
-    transform: scale(1.1);
+.icon-button {
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-/* Conteúdo principal */
-header {
-    text-align: center;
-    padding: 20px;
+#participants-grid {
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  gap: 10px;
 }
 
-main {
-    display: flex;
-    justify-content: space-around;
-    margin: 20px;
+#participants-grid div {
+  text-align: center;
+  background: #1DF2F2;
+  border-radius: 5px;
+  padding: 5px;
+  animation: pulse 1.5s infinite;
 }
 
-.participants, .history {
-    background-color: rgba(0, 0, 0, 0.5);
-    padding: 20px;
-    border-radius: 10px;
-}
-
-.grid {
-    display: grid;
-    grid-template-columns: repeat(10, 1fr);
-    gap: 10px;
-}
-
-.grid div {
-    background-color: #22CCF2;
-    padding: 10px;
-    border-radius: 5px;
-    text-align: center;
-    color: white;
-    transition: background 0.3s;
-}
-
-.grid div:hover {
+@keyframes pulse {
+  0%, 100% {
     background: #1DF2F2;
+  }
+  50% {
+    background: #22DDF2;
+  }
 }
 
-.controls {
-    margin-top: 10px;
-    display: flex;
-    gap: 10px;
-    justify-content: center;
+/* Histórico */
+#history-list, #recent-history {
+  list-style: none;
+  padding: 0;
 }
 
-input {
-    padding: 5px;
-}
-
-.round-btn {
-    background-color: #1DF2F2;
-    border: none;
-    border-radius: 50%;
-    width: 40px;
-    height: 40px;
-    font-size: 1.5em;
-    text-align: center;
-    color: white;
-    cursor: pointer;
-    transition: transform 0.3s;
-}
-
-.round-btn:hover {
-    transform: scale(1.2);
-}
-
-footer {
-    text-align: center;
-    margin-top: 20px;
-}
-
-.btn {
-    background-color: #1DF2F2;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 10px;
-    font-size: 1.2em;
-    cursor: pointer;
-    margin: 5px;
-    transition: transform 0.3s;
-}
-
-.btn:hover {
-    transform: scale(1.1);
+#history-list li, #recent-history li {
+  background: #22DDF2;
+  border-radius: 5px;
+  padding: 5px;
+  margin: 5px 0;
 }
