@@ -3,50 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sorteio com Login</title>
-    <link rel="stylesheet" href="styles.css"> <!-- Link para o CSS -->
+    <title>Site de Sorteio</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <h2>Bem-vindo ao sorteio da Guilda Brasil</h2>
-    
-    <!-- Lista de Participantes -->
-    <div>
-        <input type="text" id="nomeParticipante" placeholder="Digite o nome">
-        <button onclick="adicionarParticipante()">Adicionar Participante</button>
-    </div>
+    <h2>Bem-vindo ao Sorteio!</h2>
+
+    <button id="adicionarParticipanteBtn">Adicionar Participante</button>
+    <button id="sorteioBtn">Sortear</button>
 
     <!-- Lista de Participantes -->
     <ul id="participantesList"></ul>
 
-    <br>
+    <!-- Modal para Adicionar Participantes -->
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h3>Adicionar Participante</h3>
+            <input type="text" id="nomeParticipante" placeholder="Nome do participante">
+            <button id="adicionarBtn">Adicionar</button>
+        </div>
+    </div>
 
-    <!-- Botões -->
-    <button onclick="sortear()">Sortear</button>
-    <button onclick="limparHistorico()">Limpar Histórico</button>
-
-    <br><br>
-
-    <!-- Bolha do Ganhador (Oculta inicialmente) -->
+    <!-- Bolha do Ganhador -->
     <div id="ganhadorContainer" class="hidden">
         <div class="winnerTitle">Ganhador</div>
         <div id="ganhador"></div>
     </div>
 
-    <!-- Histórico de Ganhos -->
-    <h3>Histórico de Ganhos:</h3>
-    <ul id="historicoList"></ul>
-
-    <!-- Modal para Adicionar Participantes -->
-    <div id="modal" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="fecharModal()">&times;</span>
-            <h2>Adicionar Participante</h2>
-            <input type="text" id="nomeParticipante" placeholder="Nome do participante">
-            <button onclick="adicionarParticipante()">Adicionar</button>
-        </div>
-    </div>
-
-    <!-- Link para o arquivo JavaScript -->
     <script src="script.js"></script>
 </body>
 </html>
