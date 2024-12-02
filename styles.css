@@ -1,125 +1,119 @@
-/* CSS para o corpo e título */
+/* Geral */
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f2f2f2;
-    text-align: center;
-    padding: 20px;
-}
-
-h2 {
-    color: #2c3e50;
-}
-
-/* Estilo dos botões */
-button {
-    background-color: #3498db;
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(to bottom, #2b5876, #4e4376);
     color: white;
-    padding: 10px 20px;
-    border: none;
-    cursor: pointer;
-    border-radius: 5px;
-    font-size: 16px;
-    transition: background-color 0.3s, transform 0.3s;
-}
-
-button:hover {
-    background-color: #2980b9;
-    transform: scale(1.05);
-}
-
-/* Estilo da lista de participantes */
-#participantesList {
-    list-style-type: none;
+    text-align: center;
+    margin: 0;
     padding: 0;
 }
 
-#participantesList li {
-    background-color: #fff;
-    margin: 5px 0;
-    padding: 10px;
-    border-radius: 5px;
-    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s;
-}
-
-#participantesList li:hover {
-    background-color: #ecf0f1;
-    transform: scale(1.03);
-    cursor: pointer;
-}
-
-/* Estilo da bolha do ganhador */
-#ganhadorContainer {
-    display: none; /* Inicialmente escondido */
-    padding: 20px;
-    background: linear-gradient(45deg, #2980b9, #ecf0f1);
-    border: 2px solid #3498db;
-    margin-top: 20px;
+.title {
+    font-size: 2.5rem;
+    color: #00aaff;
+    border: 2px solid #00aaff;
+    display: inline-block;
+    padding: 10px 20px;
     border-radius: 10px;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 300px;
-    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2);
-    opacity: 0;
-    transition: opacity 1s ease-out;
+    margin-top: 20px;
 }
 
-.winnerTitle {
-    font-size: 28px;
-    font-weight: bold;
-    color: #fff;
-    margin-bottom: 10px;
+.dragon-symbol {
+    width: 150px;
+    margin: 20px auto;
 }
 
-#ganhador {
-    font-size: 24px;
-    font-weight: bold;
-    color: #fff;
-}
-
-/* Classe para mostrar a bolha */
-.hidden {
-    display: none;
-}
-
-/* Modal de Adicionar Participante */
-.modal {
-    display: none;
-    position: fixed;
-    z-index: 1;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    overflow: auto;
-    background-color: rgba(0, 0, 0, 0.4);
-    padding-top: 60px;
-}
-
-.modal-content {
-    background-color: #fefefe;
-    margin: 5% auto;
-    padding: 20px;
-    border: 1px solid #888;
-    width: 80%;
-    max-width: 300px;
-    text-align: center;
-}
-
-.close {
-    color: #aaa;
-    font-size: 28px;
-    font-weight: bold;
-    position: absolute;
-    top: 5px;
-    right: 10px;
-}
-
-.close:hover,
-.close:focus {
-    color: black;
-    text-decoration: none;
+.btn {
+    background-color: #0066cc;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
     cursor: pointer;
+    font-size: 1rem;
+    margin: 10px;
+    transition: transform 0.2s;
+}
+
+.btn:hover {
+    transform: scale(1.1);
+}
+
+/* Botões redondos */
+.round-btn {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: #0066cc;
+    color: white;
+    font-size: 1.5rem;
+    border: none;
+    cursor: pointer;
+    margin: 10px;
+    transition: transform 0.2s;
+}
+
+.round-btn:hover {
+    transform: scale(1.2);
+}
+
+/* Login Page */
+#login-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}
+
+#login-form input {
+    padding: 10px;
+    font-size: 1rem;
+    border: none;
+    border-radius: 5px;
+    margin: 10px;
+}
+
+#login-form .btn {
+    font-size: 1.2rem;
+}
+
+/* Main Page */
+#main-page {
+    padding: 20px;
+}
+
+.participants-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    gap: 10px;
+    margin: 20px 0;
+}
+
+.participants-grid div {
+    background-color: #00aaff;
+    padding: 10px;
+    border-radius: 10px;
+    font-size: 1rem;
+    color: white;
+    animation: floating 3s infinite;
+}
+
+/* Animação para escolher o vencedor */
+@keyframes highlight {
+    0% {
+        background-color: #00aaff;
+    }
+    100% {
+        background-color: #00ff00;
+    }
+}
+
+@keyframes floating {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
 }
