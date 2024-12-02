@@ -5,7 +5,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const passwordInput = document.getElementById("password");
   const clearHistoryButton = document.getElementById("clear-history-btn");
   const drawButton = document.getElementById("draw-btn");
-  const historyList = document.getElementById("history-list");
 
   let participants = [];
   let history = [];
@@ -21,14 +20,14 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // Função para atualizar as bolhas de participantes
+  // Atualizar Bolhas de Participantes
   function updateParticipantsBubbles() {
     const participantsBubbles = document.getElementById("participants-bubbles");
     participantsBubbles.innerHTML = ""; // Limpa as bolhas existentes
     participants.forEach((participant) => {
       const bubble = document.createElement("div");
-      bubble.classList.add("participant-bubble");
-      bubble.textContent = participant.name;
+      bubble.classList.add("participant-bubble"); // Classe para estilização
+      bubble.textContent = participant.name; // Nome do participante
       participantsBubbles.appendChild(bubble);
     });
   }
@@ -69,29 +68,6 @@ document.addEventListener("DOMContentLoaded", () => {
     history.unshift(winner.name);
 
     updateParticipantsBubbles();
-    updateHistory();
     setTimeout(() => alert(`O vencedor é ${winner.name}!`), 1000);
-  });
-
-  // Atualizar Histórico
-  function updateHistory() {
-    historyList.innerHTML = "";
-    history.slice(0, 5).forEach((winner) => {
-      const li = document.createElement("li");
-      li.textContent = winner;
-      historyList.appendChild(li);
-    });
-  }
-
-  // Limpar Histórico com Senha
-  clearHistoryButton.addEventListener("click", () => {
-    const pass = prompt("Digite a senha para limpar o histórico:");
-    if (pass === "BRASIL") {
-      history = [];
-      updateHistory();
-      alert("Histórico limpo com sucesso!");
-    } else {
-      alert("Senha incorreta!");
-    }
   });
 });
