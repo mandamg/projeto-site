@@ -1,60 +1,39 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>BRASIL Guilda - Sorteios</title>
+  <title>BRASIL Guilda Sorteio</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
   <div id="login-page">
-    <h1 class="title">BRASIL</h1>
-    <div id="dragon-symbol">
-      <!-- Adicione o símbolo do dragão aqui -->
-      <img src="dragon.png" alt="Símbolo do Dragão" />
-    </div>
+    <h1>BRASIL Guilda Sorteio</h1>
     <form id="password-form">
       <input type="password" id="password" placeholder="Digite a senha">
       <button type="submit">Entrar</button>
     </form>
-    <div id="history-preview">
-      <h2>Últimos Ganhadores</h2>
-      <ul id="recent-history"></ul>
-    </div>
   </div>
 
-  <div id="participants-bubbles" style="display: flex; flex-wrap: wrap; gap: 10px; margin: 10px 0;">
-  <!-- As bolhas de participantes aparecerão aqui -->
-</div>
-  
   <div id="main-page" style="display: none;">
-  <header>
-    <h1>BRASIL Guilda - Sorteios</h1>
-    <div class="buttons-container">
-      <button class="icon-button" id="add-participant-btn" title="Adicionar">+</button>
-      <button class="icon-button" id="remove-participant-btn" title="Remover">-</button>
-      <button class="icon-button" id="draw-btn" title="Sortear">🎲</button>
+    <h1>BRASIL Guilda Sorteio</h1>
+    <div id="buttons-container">
+      <button id="add-participant-btn">Adicionar Participante</button>
+      <button id="remove-participant-btn">Remover Participante</button>
+      <button id="draw-btn">Sortear</button>
+      <button id="clear-history-btn">Limpar Histórico</button>
     </div>
-  </header>
-  <main>
-    <div class="content">
-      <section id="participants-section">
-        <h2>Participantes</h2>
-        <div id="participants-bubbles"></div>
-      </section>
-      <section id="history-section">
-        <h2>Histórico de Ganhadores</h2>
-        <ul id="history-list"></ul>
-        <button id="view-more-btn">Ver Mais</button>
-        <button id="clear-history-btn">Limpar Histórico</button>
-      </section>
-    </div>
-  </main>
-</div>
 
-<ul id="history-list" style="margin-top: 10px;">
-  <!-- Vencedores aparecerão aqui -->
-</ul>
+    <div id="participants-container">
+      <h2>Participantes</h2>
+      <div id="participants-bubbles"></div>
+    </div>
+
+    <div id="history-container">
+      <h2>Histórico de Vencedores</h2>
+      <ul id="history-list"></ul>
+    </div>
+  </div>
 
   <script src="script.js"></script>
 </body>
