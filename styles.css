@@ -3,6 +3,10 @@ body {
   font-family: 'Arial', sans-serif;
   background: linear-gradient(135deg, #0A1E26, #18778C);
   color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
 }
 
 h1, h2 {
@@ -22,6 +26,12 @@ h1, h2 {
   display: block;
   margin: 0 auto;
   width: 100px;
+}
+
+#main-page, #login-page {
+  width: 90%;
+  max-width: 800px;
+  text-align: center;
 }
 
 button {
@@ -49,30 +59,25 @@ button:hover {
   justify-content: center;
 }
 
-#participants-grid {
-  display: grid;
-  grid-template-columns: repeat(10, 1fr);
-  gap: 10px;
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-#participants-grid div {
+#participants-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+}
+
+#participants-table td {
+  border: 1px solid #22CCF2;
+  padding: 10px;
   text-align: center;
   background: #1DF2F2;
-  border-radius: 5px;
-  padding: 5px;
-  animation: pulse 1.5s infinite;
 }
 
-@keyframes pulse {
-  0%, 100% {
-    background: #1DF2F2;
-  }
-  50% {
-    background: #22DDF2;
-  }
-}
-
-/* Histórico */
 #history-list, #recent-history {
   list-style: none;
   padding: 0;
