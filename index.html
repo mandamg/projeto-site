@@ -4,174 +4,49 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sorteio com Login</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="styles.css"> <!-- Link para o CSS -->
 </head>
 <body>
-    <!-- Página de Login -->
-    <div id="loginPage">
-        <h2>Login</h2>
-        <input type="password" id="password" placeholder="Digite a senha" />
-        <button onclick="login()" class="button">Entrar</button>
-        <p id="error" style="color: red; display: none;">Senha incorreta</p>
+    <h2>Bem-vindo ao sorteio da Guilda Brasil</h2>
+    
+    <!-- Lista de Participantes -->
+    <div>
+        <input type="text" id="nomeParticipante" placeholder="Digite o nome">
+        <button onclick="adicionarParticipante()">Adicionar Participante</button>
     </div>
 
-    <!-- Página Principal -->
-    <div id="mainPage" class="hidden">
-        <h2>Sorteio</h2>
-        <button onclick="mostrarAdicionarParticipante()" class="button">Adicionar Participante</button>
-        <button onclick="limparHistorico()" class="button">Limpar Histórico</button>
-        <br><br>
-        <button onclick="sortear()" class="button">Sortear</button>
+    <!-- Lista de Participantes -->
+    <ul id="participantesList"></ul>
 
-        <!-- Exibição do ganhador (vai aparecer após sorteio) -->
-        <div id="ganhadorContainer" class="hidden">
-            <div class="winnerTitle">Ganhador</div>
-            <p id="ganhador" class="winner"></p>
-        </div>
+    <br>
 
-        <h3>Participantes:</h3>
-        <ul id="participantesList"></ul>
+    <!-- Botões -->
+    <button onclick="sortear()">Sortear</button>
+    <button onclick="limparHistorico()">Limpar Histórico</button>
 
-        <h3>Histórico de Ganhadores:</h3>
-        <ul id="historico"></ul>
+    <br><br>
 
-        <!-- Aba flutuante para adicionar participante -->
-        <div id="adicionarParticipanteModal" class="modal">
-            <div class="modal-content">
-                <span class="close" onclick="fecharAdicionarParticipante()">&times;</span>
-                <h3>Adicionar Participante</h3>
-                <input type="text" id="nome" placeholder="Digite o nome" />
-                <button onclick="adicionarNome()" class="button">Adicionar</button>
-            </div>
-        </div>
+    <!-- Bolha do Ganhador (Oculta inicialmente) -->
+    <div id="ganhadorContainer" class="hidden">
+        <div class="winnerTitle">Ganhador</div>
+        <div id="ganhador"></div>
+    </div>
 
-        <!-- Modal para confirmação de senha ao limpar o histórico -->
-        <div id="confirmarLimpezaModal" class="modal">
-            <div class="modal-content">
-                <span class="close" onclick="fecharConfirmarLimpeza()">&times;</span>
-                <h3>Confirmar Limpeza de Histórico</h3>
-                <input type="password" id="senhaLimpeza" placeholder="Digite a senha para confirmar" />
-                <button onclick="confirmarLimpeza()" class="button">Limpar Histórico</button>
-            </div>
+    <!-- Histórico de Ganhos -->
+    <h3>Histórico de Ganhos:</h3>
+    <ul id="historicoList"></ul>
+
+    <!-- Modal para Adicionar Participantes -->
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="fecharModal()">&times;</span>
+            <h2>Adicionar Participante</h2>
+            <input type="text" id="nomeParticipante" placeholder="Nome do participante">
+            <button onclick="adicionarParticipante()">Adicionar</button>
         </div>
     </div>
 
-    <script>
-        const senhaCorreta = 'senha123'; // Senha de acesso
-        let participantes = JSON.parse(localStorage.getItem('participantes')) || [];
-        let historico = JSON.parse(localStorage.getItem('historico')) || [];
-
-        // Função de Login
-        function login() {
-            const passwordInput = document.getElementById('password').value;
-            const errorElement = document.getElementById('error');
-
-            if (passwordInput === senhaCorreta) {
-                document.getElementById('loginPage').style.display = 'none'; // Esconde a página de login
-                document.getElementById('mainPage').style.display = 'block'; // Mostra a página principal
-                carregarHistorico();
-                carregarParticipantes();
-            } else {
-                errorElement.style.display = 'block'; // Exibe a mensagem de erro
-            }
-        }
-
-        // Função para adicionar participante
-        function adicionarNome() {
-            const nome = document.getElementById('nome').value.trim();
-            if (nome && !participantes.includes(nome)) {
-                participantes.push(nome);
-                localStorage.setItem('participantes', JSON.stringify(participantes));
-                alert(`${nome} foi adicionado ao sorteio!`);
-                carregarParticipantes();
-                fecharAdicionarParticipante(); // Fecha a aba flutuante
-            }
-        }
-
-        // Função para sortear um nome
-        function sortear() {
-            const dataAtual = new Date();
-            const ganhadoresRecentes = historico.filter(ganhador => {
-                const dataGanhou = new Date(ganhador.data);
-                const diffDias = (dataAtual - dataGanhou) / (1000 * 3600 * 24);
-                return diffDias <= 2;
-            });
-
-            const candidatos = participantes.filter(nome => {
-                return !ganhadoresRecentes.some(ganhador => ganhador.nome === nome);
-            });
-
-            if (candidatos.length > 0) {
-                const ganhadorAleatorio = candidatos[Math.floor(Math.random() * candidatos.length)];
-                const ganhador = { nome: ganhadorAleatorio, data: new Date() };
-
-                // Exibe o ganhador
-                document.getElementById('ganhador').textContent = ganhadorAleatorio;
-                document.getElementById('ganhadorContainer').classList.remove('hidden'); // Aparece a bolha do ganhador
-                historico.push(ganhador);
-                localStorage.setItem('historico', JSON.stringify(historico));
-                carregarHistorico();
-            } else {
-                alert('Todos os participantes recentes já ganharam.');
-            }
-        }
-
-        // Função para carregar os participantes
-        function carregarParticipantes() {
-            const listElement = document.getElementById('participantesList');
-            listElement.innerHTML = '';
-            participantes.forEach(participante => {
-                const li = document.createElement('li');
-                li.textContent = participante;
-                li.classList.add('hover-effect');
-                listElement.appendChild(li);
-            });
-        }
-
-        // Função para carregar o histórico de ganhadores
-        function carregarHistorico() {
-            const historicoElement = document.getElementById('historico');
-            historicoElement.innerHTML = '';
-            historico.forEach(ganhador => {
-                const li = document.createElement('li');
-                li.textContent = `${ganhador.nome} - ${new Date(ganhador.data).toLocaleString()}`;
-                historicoElement.appendChild(li);
-            });
-        }
-
-        // Função para mostrar a aba de adicionar participante
-        function mostrarAdicionarParticipante() {
-            document.getElementById('adicionarParticipanteModal').style.display = 'block';
-        }
-
-        // Função para fechar a aba de adicionar participante
-        function fecharAdicionarParticipante() {
-            document.getElementById('adicionarParticipanteModal').style.display = 'none';
-        }
-
-        // Função para limpar o histórico
-        function limparHistorico() {
-            document.getElementById('confirmarLimpezaModal').style.display = 'block';
-        }
-
-        // Função para fechar a confirmação de limpeza do histórico
-        function fecharConfirmarLimpeza() {
-            document.getElementById('confirmarLimpezaModal').style.display = 'none';
-        }
-
-        // Função para confirmar a limpeza do histórico
-        function confirmarLimpeza() {
-            const senhaLimpezaInput = document.getElementById('senhaLimpeza').value;
-            if (senhaLimpezaInput === senhaCorreta) {
-                localStorage.removeItem('historico');
-                historico = [];
-                carregarHistorico();
-                fecharConfirmarLimpeza();
-                alert('Histórico limpo!');
-            } else {
-                alert('Senha incorreta');
-            }
-        }
-    </script>
+    <!-- Link para o arquivo JavaScript -->
+    <script src="script.js"></script>
 </body>
 </html>
