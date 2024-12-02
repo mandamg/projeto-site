@@ -1,120 +1,77 @@
-/* Cor de fundo do corpo */
 body {
     font-family: Arial, sans-serif;
-    background-color: #4fa3f7;
-    color: #fff;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    flex-direction: column;
-}
-
-/* Estilo da página de login */
-#loginPage {
-    background-color: #003366;
-    padding: 30px;
-    border-radius: 10px;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+    background-color: #f2f2f2;
     text-align: center;
+    padding: 20px;
 }
 
-/* Estilo da página principal */
-#mainPage {
-    background-color: #0066cc;
-    padding: 30px;
-    border-radius: 10px;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
-    display: none;
-    text-align: center;
-    width: 80%;
-    max-width: 800px;
-}
-
-/* Input e Botões */
-input[type="password"], input[type="text"], button {
-    padding: 10px;
-    margin-top: 10px;
-    font-size: 16px;
-    border-radius: 5px;
-    border: none;
-    outline: none;
-}
-
-input[type="password"], input[type="text"] {
-    width: 80%;
-    max-width: 300px;
-    background-color: #fff;
-    color: #003366;
+h2 {
+    color: #2c3e50;
 }
 
 button {
+    background-color: #3498db;
+    color: white;
+    padding: 10px 20px;
+    border: none;
     cursor: pointer;
-    background-color: #003366;
-    color: #fff;
-    width: 80%;
-    max-width: 300px;
-    transition: background-color 0.3s;
+    border-radius: 5px;
+    font-size: 16px;
+    transition: background-color 0.3s, transform 0.3s;
 }
 
 button:hover {
-    background-color: #002244;
-}
-
-/* Estilo dos títulos */
-h2, h3 {
-    color: #fff;
-}
-
-/* Grade para os participantes */
-#participantesList {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); /* Organiza em grade */
-    gap: 15px;
-    margin-top: 10px;
-    padding-left: 0;
-    list-style-type: none;
-}
-
-#participantesList li {
-    background-color: #003366;
-    padding: 15px;
-    margin-bottom: 10px;
-    border-radius: 5px;
-    text-align: center;
-    color: #fff;
-    font-size: 18px;
-    transition: transform 0.3s ease-in-out;
-}
-
-#participantesList li:hover {
+    background-color: #2980b9;
     transform: scale(1.05);
 }
 
-/* Estilo para o ganhador */
-#ganhadorContainer {
-    background: linear-gradient(to right, #0066cc, #fff); /* Degradê azul para branco */
-    color: #003366;
-    padding: 40px;
-    border-radius: 15px;
-    margin-top: 30px;
-    width: 100%;
-    max-width: 500px;
-    text-align: center;
-    font-size: 32px;
+#participantesList {
+    list-style-type: none;
+    padding: 0;
+}
+
+#participantesList li {
+    background-color: #fff;
+    margin: 5px 0;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s;
+}
+
+#participantesList li:hover {
+    background-color: #ecf0f1;
+    transform: scale(1.03);
+    cursor: pointer;
+}
+
+.winner {
+    font-size: 24px;
     font-weight: bold;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+    color: #2980b9;
+    margin-top: 20px;
+}
+
+#ganhadorContainer {
+    display: none;
+    padding: 20px;
+    background: linear-gradient(45deg, #2980b9, #ecf0f1);
+    border: 2px solid #3498db;
+    margin-top: 20px;
+    border-radius: 10px;
 }
 
 .winnerTitle {
-    font-size: 24px;
-    color: #fff;
+    font-size: 28px;
     font-weight: bold;
+    color: #fff;
+    margin-bottom: 10px;
 }
 
-/* Modais */
+.hidden {
+    display: none;
+}
+
 .modal {
     display: none;
     position: fixed;
@@ -124,7 +81,6 @@ h2, h3 {
     width: 100%;
     height: 100%;
     overflow: auto;
-    background-color: rgb(0,0,0);
     background-color: rgba(0, 0, 0, 0.4);
     padding-top: 60px;
 }
@@ -135,15 +91,17 @@ h2, h3 {
     padding: 20px;
     border: 1px solid #888;
     width: 80%;
-    max-width: 400px;
+    max-width: 300px;
     text-align: center;
 }
 
 .close {
     color: #aaa;
-    float: right;
     font-size: 28px;
     font-weight: bold;
+    position: absolute;
+    top: 5px;
+    right: 10px;
 }
 
 .close:hover,
@@ -151,23 +109,4 @@ h2, h3 {
     color: black;
     text-decoration: none;
     cursor: pointer;
-}
-
-/* Responsividade */
-@media (max-width: 600px) {
-    body {
-        padding: 10px;
-    }
-    #loginPage, #mainPage {
-        width: 100%;
-        padding: 20px;
-    }
-    input[type="password"], input[type="text"], button {
-        width: 100%;
-        max-width: none;
-    }
-    #ganhadorContainer {
-        width: 90%;
-        max-width: none;
-    }
 }
