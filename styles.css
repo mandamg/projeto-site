@@ -1,173 +1,162 @@
-/* Cor de fundo do corpo */
-body {
-    font-family: Arial, sans-serif;
-    background-color: #4fa3f7;
-    color: #fff;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    flex-direction: column;
-}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sorteio com Login</title>
+    <link rel="stylesheet" href="styles.css"> <!-- Vincula o arquivo CSS -->
+</head>
+<body>
+    <div id="loginPage">
+        <h2>Login</h2>
+        <input type="password" id="password" placeholder="Digite a senha" />
+        <button onclick="login()">Entrar</button>
+        <p id="error" style="color: red; display: none;">Senha incorreta</p>
+    </div>
 
-/* Estilo da página de login */
-#loginPage {
-    background-color: #003366;
-    padding: 30px;
-    border-radius: 10px;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
-    text-align: center;
-}
+    <div id="mainPage" class="hidden">
+        <h2>Sorteio</h2>
+        <button onclick="mostrarAdicionarParticipante()">Adicionar Participante</button> <!-- Botão para adicionar participante -->
+        <button onclick="limparHistorico()">Limpar Histórico</button> <!-- Botão para limpar histórico -->
+        <br><br>
+        <button onclick="sortear()">Sortear</button>
 
-/* Estilo da página principal */
-#mainPage {
-    background-color: #0066cc;
-    padding: 30px;
-    border-radius: 10px;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
-    display: none;
-    text-align: center;
-    width: 80%;
-    max-width: 800px;
-}
+        <!-- Exibição do ganhador -->
+        <div id="ganhadorContainer" class="hidden">
+            <div class="winnerTitle">Ganhador</div>
+            <p id="ganhador" class="winner"></p>
+        </div>
 
-/* Input e Botões */
-input[type="password"], input[type="text"], button {
-    padding: 10px;
-    margin-top: 10px;
-    font-size: 16px;
-    border-radius: 5px;
-    border: none;
-    outline: none;
-}
+        <h3>Participantes:</h3>
+        <ul id="participantesList"></ul>
 
-input[type="password"], input[type="text"] {
-    width: 80%;
-    max-width: 300px;
-    background-color: #fff;
-    color: #003366;
-}
+        <h3>Histórico de Ganhadores:</h3>
+        <ul id="historico"></ul>
 
-button {
-    cursor: pointer;
-    background-color: #003366;
-    color: #fff;
-    width: 80%;
-    max-width: 300px;
-    transition: background-color 0.3s;
-}
+        <!-- Aba flutuante para adicionar participante -->
+        <div id="adicionarParticipanteModal" class="modal">
+            <div class="modal-content">
+                <span class="close" onclick="fecharAdicionarParticipante()">&times;</span>
+                <h3>Adicionar Participante</h3>
+                <input type="text" id="nome" placeholder="Digite o nome" />
+                <button onclick="adicionarNome()">Adicionar</button>
+            </div>
+        </div>
 
-button:hover {
-    background-color: #002244;
-}
+        <!-- Modal para confirmação de senha ao limpar o histórico -->
+        <div id="confirmarLimpezaModal" class="modal">
+            <div class="modal-content">
+                <span class="close" onclick="fecharConfirmarLimpeza()">&times;</span>
+                <h3>Confirmar Limpeza de Histórico</h3>
+                <input type="password" id="senhaLimpeza" placeholder="Digite a senha para confirmar" />
+                <button onclick="confirmarLimpeza()">Limpar Histórico</button>
+            </div>
+        </div>
+    </div>
 
-/* Estilo dos títulos */
-h2, h3 {
-    color: #fff;
-}
+    <script>
+        const senhaCorreta = 'senha123'; // Senha de acesso
+        let participantes = JSON.parse(localStorage.getItem('participantes')) || [];
+        let historico = JSON.parse(localStorage.getItem('historico')) || [];
 
-/* Grade para os participantes */
-#participantesList {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-    gap: 15px;
-    margin-top: 10px;
-    padding-left: 0;
-    list-style-type: none;
-}
+        function login() {
+            const passwordInput = document.getElementById('password').value;
+            if (passwordInput === senhaCorreta) {
+                document.getElementById('loginPage').classList.add('hidden');
+                document.getElementById('mainPage').classList.remove('hidden');
+                carregarHistorico();
+                carregarParticipantes();
+            } else {
+                document.getElementById('error').style.display = 'block';
+            }
+        }
 
-#participantesList li {
-    background-color: #003366;
-    padding: 15px;
-    margin-bottom: 10px;
-    border-radius: 5px;
-    text-align: center;
-    color: #fff;
-    font-size: 18px;
-    transition: transform 0.3s ease-in-out;
-}
+        function adicionarNome() {
+            const nome = document.getElementById('nome').value.trim();
+            if (nome && !participantes.includes(nome)) {
+                participantes.push(nome);
+                localStorage.setItem('participantes', JSON.stringify(participantes));
+                alert(`${nome} foi adicionado ao sorteio!`);
+                carregarParticipantes();
+                fecharAdicionarParticipante(); // Fecha a aba flutuante
+            }
+        }
 
-#participantesList li:hover {
-    transform: scale(1.05);
-}
+        function sortear() {
+            const dataAtual = new Date();
+            const ganhadoresRecentes = historico.filter(ganhador => {
+                const dataGanhou = new Date(ganhador.data);
+                const diffDias = (dataAtual - dataGanhou) / (1000 * 3600 * 24);
+                return diffDias <= 2;
+            });
 
-/* Estilo para o ganhador */
-#ganhadorContainer {
-    background: linear-gradient(to right, #0066cc, #fff); /* Degradê azul para branco */
-    color: #003366;
-    padding: 40px;
-    border-radius: 15px;
-    margin-top: 30px;
-    width: 100%;
-    max-width: 500px;
-    text-align: center;
-    font-size: 32px;
-    font-weight: bold;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
-}
+            const candidatos = participantes.filter(nome => {
+                return !ganhadoresRecentes.some(ganhador => ganhador.nome === nome);
+            });
 
-.winnerTitle {
-    font-size: 24px;
-    color: #fff;
-    font-weight: bold;
-}
+            if (candidatos.length > 0) {
+                const ganhadorAleatorio = candidatos[Math.floor(Math.random() * candidatos.length)];
+                const ganhador = { nome: ganhadorAleatorio, data: new Date() };
 
-/* Modais */
-.modal {
-    display: none;
-    position: fixed;
-    z-index: 1;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    overflow: auto;
-    background-color: rgb(0,0,0);
-    background-color: rgba(0, 0, 0, 0.4);
-    padding-top: 60px;
-}
+                // Exibe o ganhador
+                document.getElementById('ganhador').textContent = ganhadorAleatorio;
+                document.getElementById('ganhadorContainer').classList.remove('hidden');
+                historico.push(ganhador);
+                localStorage.setItem('historico', JSON.stringify(historico));
+                carregarHistorico();
+            } else {
+                alert('Todos os participantes recentes já ganharam.');
+            }
+        }
 
-.modal-content {
-    background-color: #fefefe;
-    margin: 5% auto;
-    padding: 20px;
-    border: 1px solid #888;
-    width: 80%;
-    max-width: 400px;
-    text-align: center;
-}
+        function carregarParticipantes() {
+            const listElement = document.getElementById('participantesList');
+            listElement.innerHTML = '';
+            participantes.forEach(participante => {
+                const li = document.createElement('li');
+                li.textContent = participante;
+                listElement.appendChild(li);
+            });
+        }
 
-.close {
-    color: #aaa;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
-}
+        function carregarHistorico() {
+            const historicoElement = document.getElementById('historico');
+            historicoElement.innerHTML = '';
+            historico.forEach(ganhador => {
+                const li = document.createElement('li');
+                li.textContent = `${ganhador.nome} - ${new Date(ganhador.data).toLocaleString()}`;
+                historicoElement.appendChild(li);
+            });
+        }
 
-.close:hover,
-.close:focus {
-    color: black;
-    text-decoration: none;
-    cursor: pointer;
-}
+        function mostrarAdicionarParticipante() {
+            document.getElementById('adicionarParticipanteModal').style.display = 'block';
+        }
 
-/* Responsividade */
-@media (max-width: 600px) {
-    body {
-        padding: 10px;
-    }
-    #loginPage, #mainPage {
-        width: 100%;
-        padding: 20px;
-    }
-    input[type="password"], input[type="text"], button {
-        width: 100%;
-        max-width: none;
-    }
-    #ganhadorContainer {
-        width: 90%;
-        max-width: none;
-    }
-}
+        function fecharAdicionarParticipante() {
+            document.getElementById('adicionarParticipanteModal').style.display = 'none';
+        }
+
+        function limparHistorico() {
+            document.getElementById('confirmarLimpezaModal').style.display = 'block';
+        }
+
+        function fecharConfirmarLimpeza() {
+            document.getElementById('confirmarLimpezaModal').style.display = 'none';
+        }
+
+        function confirmarLimpeza() {
+            const senhaLimpezaInput = document.getElementById('senhaLimpeza').value;
+            if (senhaLimpezaInput === senhaCorreta) {
+                localStorage.removeItem('historico');
+                historico = [];
+                carregarHistorico();
+                fecharConfirmarLimpeza();
+                alert('Histórico limpo!');
+            } else {
+                alert('Senha incorreta');
+            }
+        }
+    </script>
+</body>
+</html>
