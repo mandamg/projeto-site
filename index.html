@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sorteio com Login</title>
-    <link rel="stylesheet" href="styles.css"> <!-- Vincula o arquivo CSS -->
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <!-- Página de Login -->
@@ -18,12 +18,12 @@
     <!-- Página Principal -->
     <div id="mainPage" class="hidden">
         <h2>Sorteio</h2>
-        <button onclick="mostrarAdicionarParticipante()" class="button">Adicionar Participante</button> <!-- Botão para adicionar participante -->
-        <button onclick="limparHistorico()" class="button">Limpar Histórico</button> <!-- Botão para limpar histórico -->
+        <button onclick="mostrarAdicionarParticipante()" class="button">Adicionar Participante</button>
+        <button onclick="limparHistorico()" class="button">Limpar Histórico</button>
         <br><br>
         <button onclick="sortear()" class="button">Sortear</button>
 
-        <!-- Exibição do ganhador -->
+        <!-- Exibição do ganhador (vai aparecer após sorteio) -->
         <div id="ganhadorContainer" class="hidden">
             <div class="winnerTitle">Ganhador</div>
             <p id="ganhador" class="winner"></p>
@@ -107,7 +107,7 @@
 
                 // Exibe o ganhador
                 document.getElementById('ganhador').textContent = ganhadorAleatorio;
-                document.getElementById('ganhadorContainer').style.display = 'block'; // Aparece a bolha do ganhador
+                document.getElementById('ganhadorContainer').classList.remove('hidden'); // Aparece a bolha do ganhador
                 historico.push(ganhador);
                 localStorage.setItem('historico', JSON.stringify(historico));
                 carregarHistorico();
