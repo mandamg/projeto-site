@@ -1,62 +1,75 @@
-// Inicialização
-document.getElementById('login-form').addEventListener('submit', function (e) {
-    e.preventDefault();
-    const password = document.getElementById('password').value;
+let participants = [];
+let winners = [];
 
-    if (password === 'admin123') {
-        document.getElementById('login-page').style.display = 'none';
-        document.getElementById('main-page').style.display = 'block';
-    } else if (password === 'participant123') {
-        document.getElementById('login-page').style.display = 'none';
-        document.getElementById('main-page').style.display = 'block';
-        document.querySelector('.button-container').style.display = 'none';
+function checkPassword() {
+    const password = document.getElementById("password").value;
+    if (password === "admin" || password === "participant") {
+        document.getElementById("login-screen").classList.add("hidden");
+        document.getElementById("main-content").classList.remove("hidden");
     } else {
-        alert('Senha incorreta!');
+        alert("Senha incorreta!");
     }
-});
+}
 
-// Adicionando participantes
-const participantsContainer = document.getElementById('participants-container');
-const participants = [];
-
-document.getElementById('add-participant').addEventListener('click', () => {
-    const name = prompt('Digite o nome do participante:');
-    if (name) {
+function addParticipant() {
+    const name = document.getElementById("new-participant").value.trim();
+    if (name && !participants.includes(name)) {
         participants.push(name);
-        updateParticipants();
+        updateGrid();
+        document.getElementById("new-participant").value = "";
     }
-});
+}
 
-// Atualizar participantes
-function updateParticipants() {
-    participantsContainer.innerHTML = '';
-    participants.forEach(name => {
-        const div = document.createElement('div');
-        div.className = 'participant';
+function removeParticipant() {
+    const name = document.getElementById("new-participant").value.trim();
+    if (name && participants.includes(name)) {
+        participants = participants.filter(p => p !== name);
+        updateGrid();
+        document.getElementById("new-participant").value = "";
+    }
+}
+
+function updateGrid() {
+    const grid = document.getElementById("participant-grid");
+    grid.innerHTML = "";
+    participants.forEach((name, index) => {
+        const div = document.createElement("div");
         div.textContent = name;
-        participantsContainer.appendChild(div);
+        grid.appendChild(div);
     });
 }
 
-// Modal para exibir ganhador
-const modal = document.getElementById('winner-modal');
-const modalClose = document.querySelector('.modal-content .close');
-const winnerName = document.getElementById('winner-name');
-
-modalClose.addEventListener('click', () => {
-    modal.style.display = 'none';
-});
-
-document.getElementById('start-draw').addEventListener('click', () => {
-    if (participants.length === 0) {
-        alert('Nenhum participante disponível!');
+function runDraw() {
+    const eligibleParticipants = participants.filter(
+        name => !winners.slice(-2).includes(name)
+    );
+    if (eligibleParticipants.length === 0) {
+        alert("Nenhum participante elegível.");
         return;
     }
+    const winner = eligibleParticipants[Math.floor(Math.random() * eligibleParticipants.length)];
+    setTimeout(() => {
+        alert(`O vencedor é: ${winner}`);
+        winners.push(winner);
+        updateWinnersList();
+    }, 1000);
+}
 
-    // Sorteio
-    const winner = participants[Math.floor(Math.random() * participants.length)];
-    winnerName.textContent = winner;
+function updateWinnersList() {
+    const list = document.getElementById("winners-list");
+    list.innerHTML = "";
+    winners.slice(-5).forEach(winner => {
+        const li = document.createElement("li");
+        li.textContent = winner;
+        list.appendChild(li);
+    });
+}
 
-    // Exibe o modal
-    modal.style.display = 'flex';
-});
+function showMoreWinners() {
+    alert("Vencedores anteriores: " + winners.join(", "));
+}
+
+function clearHistory() {
+    winners = [];
+    updateWinnersList();
+}
