@@ -28,7 +28,7 @@
         <h3>Ganhador:</h3>
         <p id="ganhador" class="winner"></p>
         <h3>Participantes:</h3>
-        <ul id="participantesList"></ul>
+        <ul id="participantesList"></ul> <!-- A lista de participantes -->
         <h3>Histórico de Ganhadores:</h3>
         <ul id="historico"></ul>
     </div>
@@ -44,7 +44,7 @@
                 document.getElementById('loginPage').classList.add('hidden');
                 document.getElementById('mainPage').classList.remove('hidden');
                 carregarHistorico();
-                carregarParticipantes();
+                carregarParticipantes();  // Exibe a lista de participantes
             } else {
                 document.getElementById('error').style.display = 'block';
             }
@@ -90,21 +90,29 @@
         function carregarParticipantes() {
             const participantesList = document.getElementById('participantesList');
             participantesList.innerHTML = '';  // Limpa a lista de participantes
-            participantes.forEach(nome => {
-                const li = document.createElement('li');
-                li.textContent = nome;
-                participantesList.appendChild(li);
-            });
+            if (participantes.length > 0) {
+                participantes.forEach(nome => {
+                    const li = document.createElement('li');
+                    li.textContent = nome;
+                    participantesList.appendChild(li);
+                });
+            } else {
+                participantesList.innerHTML = '<li>Sem participantes no sorteio.</li>';
+            }
         }
 
         function carregarHistorico() {
             const historicoUl = document.getElementById('historico');
             historicoUl.innerHTML = '';
-            historico.forEach(ganhador => {
-                const li = document.createElement('li');
-                li.textContent = `${ganhador.nome} - ${new Date(ganhador.data).toLocaleDateString()}`;
-                historicoUl.appendChild(li);
-            });
+            if (historico.length > 0) {
+                historico.forEach(ganhador => {
+                    const li = document.createElement('li');
+                    li.textContent = `${ganhador.nome} - ${new Date(ganhador.data).toLocaleDateString()}`;
+                    historicoUl.appendChild(li);
+                });
+            } else {
+                historicoUl.innerHTML = '<li>Sem histórico de ganhadores.</li>';
+            }
         }
     </script>
 </body>
