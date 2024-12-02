@@ -49,27 +49,27 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // Sorteio
-  drawButton.addEventListener("click", () => {
-    const today = new Date();
-    const eligible = participants.filter((participant) => {
-      return (
-        !participant.lastWin ||
-        (today - new Date(participant.lastWin)) / (1000 * 60 * 60 * 24) > 2
-      );
-    });
-
-    if (eligible.length === 0) {
-      alert("Nenhum participante elegível!");
-      return;
-    }
-
-    const winner = eligible[Math.floor(Math.random() * eligible.length)];
-    winner.lastWin = today.toISOString();
-    history.unshift(winner.name);
-
-    updateParticipantsBubbles();
-    setTimeout(() => alert(`O vencedor é ${winner.name}!`), 1000);
+ drawButton.addEventListener("click", () => {
+  const today = new Date();
+  const eligible = participants.filter((participant) => {
+    return (
+      !participant.lastWin ||
+      (today - new Date(participant.lastWin)) / (1000 * 60 * 60 * 24) > 2
+    );
   });
+
+  if (eligible.length === 0) {
+    alert("Nenhum participante elegível!");
+    return;
+  }
+
+  const winner = eligible[Math.floor(Math.random() * eligible.length)];
+  winner.lastWin = today.toISOString();
+  history.unshift(winner.name); // Adiciona ao histórico
+  updateParticipantsBubbles();
+  updateHistory(); // Atualiza a exibição do histórico
+  setTimeout(() => alert(`O vencedor é ${winner.name}!`), 1000);
+});
 
   // Atualizar o histórico de vencedores
 function updateHistory() {
