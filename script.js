@@ -38,21 +38,52 @@ document.addEventListener("DOMContentLoaded", () => {
     updateParticipantsTable();
   });
 
-  // Update Participants Table
-  function updateParticipantsTable() {
-    participantsTable.innerHTML = "";
-    const rows = Math.ceil(participants.length / 10);
-    for (let i = 0; i < rows; i++) {
-      const row = document.createElement("tr");
-      participants.slice(i * 10, (i + 1) * 10).forEach((participant) => {
-        const cell = document.createElement("td");
-        cell.textContent = participant.name;
-        row.appendChild(cell);
-      });
-      participantsTable.appendChild(row);
-    }
-  }
+  function updateParticipantsBubbles() {
+  const participantsBubbles = document.getElementById("participants-bubbles");
+  participantsBubbles.innerHTML = ""; // Limpa as bolhas existentes
+  participants.forEach((participant) => {
+    const bubble = document.createElement("div");
+    bubble.classList.add("participant-bubble");
+    bubble.textContent = participant.name;
+    participantsBubbles.appendChild(bubble);
+  });
+}
 
+// Atualizar os participantes ao adicionar ou remover
+document.getElementById("add-participant-btn").addEventListener("click", () => {
+  const name = prompt("Digite o nome do participante:");
+  if (name) {
+    participants.push({ name, lastWin: null });
+    updateParticipantsBubbles();
+  }
+});
+
+document.getElementById("remove-participant-btn").addEventListener("click", () => {
+  const name = prompt("Digite o nome do participante a remover:");
+  participants = participants.filter((participant) => participant.name !== name);
+  updateParticipantsBubbles();
+});
+
+// Atualizar também após o sorteio
+drawButton.addEventListener("click", () => {
+  const today = new Date();
+  const eligible = participants.filter((participant) => {
+    return (
+      !participant.lastWin ||
+      (today - new Date(participant.lastWin)) / (1000 * 60 * 60 * 24) > 2
+    );
+  });
+  if (eligible.length === 0) {
+    alert("Nenhum participante elegível!");
+    return;
+  }
+  const winner = eligible[Math.floor(Math.random() * eligible.length)];
+  winner.lastWin = today.toISOString();
+  history.unshift(winner.name);
+  updateParticipantsBubbles();
+  updateHistory();
+  setTimeout(() => alert(`O vencedor é ${winner.name}!`), 1000);
+});
   // Draw Winner
   drawButton.addEventListener("click", () => {
     const today = new Date();
