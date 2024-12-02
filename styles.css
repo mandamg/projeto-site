@@ -1,3 +1,4 @@
+/* CSS para o corpo e título */
 body {
     font-family: Arial, sans-serif;
     background-color: #f2f2f2;
@@ -9,6 +10,7 @@ h2 {
     color: #2c3e50;
 }
 
+/* Estilo dos botões */
 button {
     background-color: #3498db;
     color: white;
@@ -25,6 +27,7 @@ button:hover {
     transform: scale(1.05);
 }
 
+/* Estilo da lista de participantes */
 #participantesList {
     list-style-type: none;
     padding: 0;
@@ -45,6 +48,7 @@ button:hover {
     cursor: pointer;
 }
 
+/* Estilo da bolha do ganhador */
 #ganhadorContainer {
     display: none; /* Inicialmente escondido */
     padding: 20px;
@@ -52,6 +56,14 @@ button:hover {
     border: 2px solid #3498db;
     margin-top: 20px;
     border-radius: 10px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 300px;
+    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2);
+    opacity: 0;
+    transition: opacity 1s ease-out;
 }
 
 .winnerTitle {
@@ -61,11 +73,18 @@ button:hover {
     margin-bottom: 10px;
 }
 
+#ganhador {
+    font-size: 24px;
+    font-weight: bold;
+    color: #fff;
+}
+
+/* Classe para mostrar a bolha */
 .hidden {
     display: none;
 }
 
-/* Modal */
+/* Modal de Adicionar Participante */
 .modal {
     display: none;
     position: fixed;
