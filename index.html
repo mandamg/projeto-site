@@ -28,26 +28,28 @@
       <h1>BRASIL Guilda - Sorteios</h1>
     </header>
     <main>
-      <div id="participants-section">
-        <h2>Participantes</h2>
-        <div id="participants-grid"></div>
-        <div class="buttons">
-          <button class="icon-button" id="add-participant-btn">
-            <span>+</span>
-          </button>
-          <button class="icon-button" id="remove-participant-btn">
-            <span>-</span>
-          </button>
-        </div>
-      </div>
-      <div id="action-section">
-        <button id="draw-btn">Sortear</button>
-      </div>
-      <div id="history-section">
-        <h2>Histórico de Ganhadores</h2>
-        <ul id="history-list"></ul>
-        <button id="view-more-btn">Ver Mais</button>
-        <button id="clear-history-btn">Limpar Histórico</button>
+      <div class="content">
+        <section id="participants-section">
+          <h2>Participantes</h2>
+          <table id="participants-table"></table>
+          <div class="buttons">
+            <button class="icon-button" id="add-participant-btn" title="Adicionar">
+              <span>+</span>
+            </button>
+            <button class="icon-button" id="remove-participant-btn" title="Remover">
+              <span>-</span>
+            </button>
+          </div>
+        </section>
+        <section id="action-section">
+          <button id="draw-btn">Sortear</button>
+        </section>
+        <section id="history-section">
+          <h2>Histórico de Ganhadores</h2>
+          <ul id="history-list"></ul>
+          <button id="view-more-btn">Ver Mais</button>
+          <button id="clear-history-btn">Limpar Histórico</button>
+        </section>
       </div>
     </main>
   </div>
