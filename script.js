@@ -41,6 +41,11 @@ document.addEventListener("DOMContentLoaded", () => {
       li.textContent = winner;
       historyList.appendChild(li);
     });
+
+    // Garante visibilidade do histórico
+    if (history.length === 0) {
+      historyList.innerHTML = "<li>Sem histórico de vencedores ainda.</li>";
+    }
   }
 
   // Adiciona participante
@@ -93,4 +98,7 @@ document.addEventListener("DOMContentLoaded", () => {
       alert("Senha incorreta!");
     }
   });
+
+  // Inicializa com mensagens padrão no histórico
+  updateHistory();
 });
