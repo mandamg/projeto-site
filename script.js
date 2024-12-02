@@ -2,29 +2,44 @@
 let participantes = [];
 let historico = JSON.parse(localStorage.getItem('historico')) || [];
 
-// Função para adicionar participante à lista
-function adicionarParticipante() {
-    const nome = document.getElementById('nomeParticipante').value.trim();
-    if (nome !== "") {
-        participantes.push(nome);
-        atualizarParticipantes();
-        document.getElementById('nomeParticipante').value = ""; // Limpa o campo
-        fecharModal();
-    }
-}
-
-// Função para atualizar a lista de participantes na tela
-function atualizarParticipantes() {
+// Carregar participantes no HTML
+function carregarParticipantes() {
     const lista = document.getElementById('participantesList');
-    lista.innerHTML = "";
-    participantes.forEach((participante, index) => {
+    lista.innerHTML = ''; // Limpa a lista antes de adicionar os itens
+
+    participantes.forEach(participante => {
         const li = document.createElement('li');
         li.textContent = participante;
         lista.appendChild(li);
     });
 }
 
-// Função para mostrar a bolha de ganhador após o sorteio
+// Adicionar participante
+document.getElementById('adicionarBtn').addEventListener('click', function() {
+    const nome = document.getElementById('nomeParticipante').value.trim();
+    if (nome) {
+        participantes.push(nome);
+        localStorage.setItem('participantes', JSON.stringify(participantes));
+        carregarParticipantes();
+        document.getElementById('nomeParticipante').value = ''; // Limpa o campo
+        fecharModal();
+    } else {
+        alert('Por favor, insira um nome.');
+    }
+});
+
+// Abrir o modal de adicionar participante
+document.getElementById('adicionarParticipanteBtn').addEventListener('click', function() {
+    document.getElementById('myModal').style.display = 'block';
+});
+
+// Fechar o modal
+document.querySelector('.close').addEventListener('click', fecharModal);
+function fecharModal() {
+    document.getElementById('myModal').style.display = 'none';
+}
+
+// Função para sortear o ganhador
 function sortear() {
     const dataAtual = new Date();
     
@@ -43,56 +58,30 @@ function sortear() {
         const ganhadorAleatorio = candidatos[Math.floor(Math.random() * candidatos.length)];
         const ganhador = { nome: ganhadorAleatorio, data: new Date() };
 
-        // Atualiza o nome do ganhador e exibe a bolha
-        document.getElementById('ganhador').textContent = ganhadorAleatorio;
-        document.getElementById('ganhadorContainer').classList.remove('hidden'); // Torna visível
-
-        // Adiciona ao histórico
+        // Adiciona o ganhador ao histórico
         historico.push(ganhador);
         localStorage.setItem('historico', JSON.stringify(historico));
 
-        carregarHistorico(); // Atualiza o histórico na tela
+        // Carrega o histórico
+        carregarHistorico();
+
+        // Exibe o nome do ganhador após 1 segundo de espera
+        setTimeout(() => {
+            document.getElementById('ganhador').textContent = ganhadorAleatorio;
+            document.getElementById('ganhadorContainer').classList.remove('hidden'); // Torna visível a bolha
+        }, 1000);  // Atraso de 1 segundo
+
     } else {
         alert('Todos os participantes recentes já ganharam.');
     }
 }
 
-// Função para carregar o histórico de ganhadores
-function carregarHistorico() {
-    const historicoContainer = document.getElementById('historicoList');
-    historicoContainer.innerHTML = ""; // Limpa o conteúdo atual
+// Adiciona a função sortear ao botão de sorteio
+document.getElementById('sorteioBtn').addEventListener('click', sortear);
 
-    historico.forEach(ganhador => {
-        const li = document.createElement('li');
-        li.textContent = `${ganhador.nome} - ${ganhador.data}`;
-        historicoContainer.appendChild(li);
-    });
-}
-
-// Função para limpar o histórico (com autenticação de senha)
-function limparHistorico() {
-    const senha = prompt("Digite a senha para limpar o histórico:");
-    if (senha === "senha123") { // A senha para confirmação
-        localStorage.removeItem('historico'); // Remove o histórico do localStorage
-        historico = [];
-        carregarHistorico();
-    } else {
-        alert("Senha incorreta.");
-    }
-}
-
-// Função para abrir o modal de adicionar participante
-function abrirModal() {
-    document.getElementById('modal').style.display = 'block';
-}
-
-// Função para fechar o modal de adicionar participante
-function fecharModal() {
-    document.getElementById('modal').style.display = 'none';
-}
-
-// Inicializa o histórico ao carregar a página
-document.addEventListener('DOMContentLoaded', () => {
-    carregarHistorico();
-    atualizarParticipantes();
+// Carregar participantes ao iniciar a página
+document.addEventListener('DOMContentLoaded', function() {
+    const participantesSalvos = JSON.parse(localStorage.getItem('participantes')) || [];
+    participantes = participantesSalvos;
+    carregarParticipantes();
 });
