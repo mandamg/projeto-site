@@ -45,13 +45,6 @@ button:hover {
     cursor: pointer;
 }
 
-.winner {
-    font-size: 24px;
-    font-weight: bold;
-    color: #2980b9;
-    margin-top: 20px;
-}
-
 #ganhadorContainer {
     display: none;
     padding: 20px;
@@ -72,6 +65,7 @@ button:hover {
     display: none;
 }
 
+/* Modal */
 .modal {
     display: none;
     position: fixed;
