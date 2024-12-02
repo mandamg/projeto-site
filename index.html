@@ -2,26 +2,96 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Site Curso em Video</title>
-    <img src="imagens\curso-em-video-cor.png" alt="Curso em Vídeo">
+    <title>Sorteio com Login</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .hidden { display: none; }
+        .winner { color: green; font-weight: bold; }
+    </style>
 </head>
 <body>
-    <main>
-        <header>
-            <h1>Curso Grátis HTML 5 com CSS3</h1>
-        </header>
-        <article>
-            <h2>Curso de HTML 5 e CSS 3</h2>
-            <img class="lado" src="imagens/curso-html-css.png" alt="Curso HTML 5">
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Libero inventore ipsum nemo in labore assumenda animi ipsam? Ea voluptate illo sunt eum soluta vitae sed aut? Suscipit similique quod tenetur!</p>
-        </article>
-        <article>
-            <h2>Curso de JavaScript</h2>
-            <img class="lado" src="imagens/curso-javascript.png" alt="Curso JavaScript">
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quis velit eaque repellendus in temporibus ab ea minima repellat inventore maxime? Libero natus fuga sed beatae earum neque odit provident. Nobis.</p>
-        </article>
-    </main>
+    <div id="loginPage">
+        <h2>Login</h2>
+        <input type="password" id="password" placeholder="Digite a senha" />
+        <button onclick="login()">Entrar</button>
+        <p id="error" style="color: red; display: none;">Senha incorreta</p>
+    </div>
+
+    <div id="mainPage" class="hidden">
+        <h2>Sorteio</h2>
+        <label for="nome">Nome:</label>
+        <input type="text" id="nome" placeholder="Digite seu nome" />
+        <button onclick="adicionarNome()">Adicionar ao sorteio</button>
+        <br><br>
+        <button onclick="sortear()">Sortear</button>
+        <h3>Ganhador:</h3>
+        <p id="ganhador" class="winner"></p>
+        <h3>Histórico de Ganhadores:</h3>
+        <ul id="historico"></ul>
+    </div>
+
+    <script>
+        const senhaCorreta = 'senha123'; // Senha de acesso
+        let participantes = JSON.parse(localStorage.getItem('participantes')) || [];
+        let historico = JSON.parse(localStorage.getItem('historico')) || [];
+
+        function login() {
+            const passwordInput = document.getElementById('password').value;
+            if (passwordInput === senhaCorreta) {
+                document.getElementById('loginPage').classList.add('hidden');
+                document.getElementById('mainPage').classList.remove('hidden');
+                carregarHistorico();
+            } else {
+                document.getElementById('error').style.display = 'block';
+            }
+        }
+
+        function adicionarNome() {
+            const nome = document.getElementById('nome').value.trim();
+            if (nome && !participantes.includes(nome)) {
+                participantes.push(nome);
+                localStorage.setItem('participantes', JSON.stringify(participantes));
+                alert(`${nome} foi adicionado ao sorteio!`);
+            }
+        }
+
+        function sortear() {
+            const dataAtual = new Date();
+            const ganhadoresRecentes = historico.filter(ganhador => {
+                const dataGanhou = new Date(ganhador.data);
+                return (dataAtual - dataGanhou) / (1000 * 3600 * 24) <= 2;
+            });
+
+            // Filtra participantes que não ganharam nos últimos 2 dias
+            const participantesDisponiveis = participantes.filter(nome => {
+                return !ganhadoresRecentes.some(ganhador => ganhador.nome === nome);
+            });
+
+            if (participantesDisponiveis.length === 0) {
+                alert('Nenhum participante disponível para sorteio!');
+                return;
+            }
+
+            // Sorteio
+            const ganhador = participantesDisponiveis[Math.floor(Math.random() * participantesDisponiveis.length)];
+            document.getElementById('ganhador').textContent = ganhador;
+
+            // Adiciona ao histórico de ganhadores
+            historico.push({ nome: ganhador, data: new Date() });
+            localStorage.setItem('historico', JSON.stringify(historico));
+            carregarHistorico();
+        }
+
+        function carregarHistorico() {
+            const historicoUl = document.getElementById('historico');
+            historicoUl.innerHTML = '';
+            historico.forEach(ganhador => {
+                const li = document.createElement('li');
+                li.textContent = `${ganhador.nome} - ${new Date(ganhador.data).toLocaleDateString()}`;
+                historicoUl.appendChild(li);
+            });
+        }
+    </script>
 </body>
 </html>
