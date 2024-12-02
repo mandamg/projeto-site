@@ -1,63 +1,12 @@
-/* Geral */
+/* Estilização geral */
 body {
-    font-family: 'Arial', sans-serif;
-    background: linear-gradient(to bottom, #2b5876, #4e4376);
-    color: white;
-    text-align: center;
     margin: 0;
-    padding: 0;
+    font-family: Arial, sans-serif;
+    background-color: #18778C;
+    color: #fff;
 }
 
-.title {
-    font-size: 2.5rem;
-    color: #00aaff;
-    border: 2px solid #00aaff;
-    display: inline-block;
-    padding: 10px 20px;
-    border-radius: 10px;
-    margin-top: 20px;
-}
-
-.dragon-symbol {
-    width: 150px;
-    margin: 20px auto;
-}
-
-.btn {
-    background-color: #0066cc;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 1rem;
-    margin: 10px;
-    transition: transform 0.2s;
-}
-
-.btn:hover {
-    transform: scale(1.1);
-}
-
-/* Botões redondos */
-.round-btn {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    background-color: #0066cc;
-    color: white;
-    font-size: 1.5rem;
-    border: none;
-    cursor: pointer;
-    margin: 10px;
-    transition: transform 0.2s;
-}
-
-.round-btn:hover {
-    transform: scale(1.2);
-}
-
-/* Login Page */
+/* Página de login */
 #login-page {
     display: flex;
     flex-direction: column;
@@ -66,54 +15,87 @@ body {
     height: 100vh;
 }
 
-#login-form input {
+#login-form {
+    margin-top: 20px;
+}
+
+input, button {
     padding: 10px;
-    font-size: 1rem;
     border: none;
     border-radius: 5px;
-    margin: 10px;
+    font-size: 16px;
+    margin: 5px 0;
 }
 
-#login-form .btn {
-    font-size: 1.2rem;
+button:hover {
+    transform: scale(1.1);
+    transition: 0.2s;
 }
 
-/* Main Page */
+/* Página principal */
 #main-page {
     padding: 20px;
 }
 
-.participants-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+.button-container {
+    display: flex;
     gap: 10px;
-    margin: 20px 0;
+    margin-bottom: 20px;
 }
 
-.participants-grid div {
-    background-color: #00aaff;
-    padding: 10px;
+#participants-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+    max-width: 1000px;
+    gap: 10px;
+    margin: auto;
+    justify-items: center;
+}
+
+.participant {
+    width: 80px;
+    height: 80px;
+    background: #1BA1BE;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    font-size: 12px;
+    color: #fff;
+    text-align: center;
+    transition: transform 0.2s;
+}
+
+.participant:hover {
+    transform: scale(1.2);
+}
+
+/* Modal */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background-color: #fff;
+    color: #333;
+    padding: 20px;
     border-radius: 10px;
-    font-size: 1rem;
-    color: white;
-    animation: floating 3s infinite;
+    text-align: center;
+    width: 300px;
 }
 
-/* Animação para escolher o vencedor */
-@keyframes highlight {
-    0% {
-        background-color: #00aaff;
-    }
-    100% {
-        background-color: #00ff00;
-    }
-}
-
-@keyframes floating {
-    0%, 100% {
-        transform: translateY(0);
-    }
-    50% {
-        transform: translateY(-10px);
-    }
+.modal-content .close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 20px;
+    cursor: pointer;
 }
