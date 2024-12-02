@@ -27,6 +27,8 @@
         <button onclick="sortear()">Sortear</button>
         <h3>Ganhador:</h3>
         <p id="ganhador" class="winner"></p>
+        <h3>Participantes:</h3>
+        <ul id="participantesList"></ul>
         <h3>Histórico de Ganhadores:</h3>
         <ul id="historico"></ul>
     </div>
@@ -42,6 +44,7 @@
                 document.getElementById('loginPage').classList.add('hidden');
                 document.getElementById('mainPage').classList.remove('hidden');
                 carregarHistorico();
+                carregarParticipantes();
             } else {
                 document.getElementById('error').style.display = 'block';
             }
@@ -53,6 +56,7 @@
                 participantes.push(nome);
                 localStorage.setItem('participantes', JSON.stringify(participantes));
                 alert(`${nome} foi adicionado ao sorteio!`);
+                carregarParticipantes();  // Atualiza a lista de participantes
             }
         }
 
@@ -81,6 +85,16 @@
             historico.push({ nome: ganhador, data: new Date() });
             localStorage.setItem('historico', JSON.stringify(historico));
             carregarHistorico();
+        }
+
+        function carregarParticipantes() {
+            const participantesList = document.getElementById('participantesList');
+            participantesList.innerHTML = '';  // Limpa a lista de participantes
+            participantes.forEach(nome => {
+                const li = document.createElement('li');
+                li.textContent = nome;
+                participantesList.appendChild(li);
+            });
         }
 
         function carregarHistorico() {
