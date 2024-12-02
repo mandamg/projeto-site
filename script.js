@@ -70,4 +70,16 @@ document.addEventListener("DOMContentLoaded", () => {
     updateParticipantsBubbles();
     setTimeout(() => alert(`O vencedor é ${winner.name}!`), 1000);
   });
+
+  // Atualizar o histórico de vencedores
+function updateHistory() {
+  const historyList = document.getElementById("history-list");
+  historyList.innerHTML = ""; // Limpa o histórico existente
+  history.slice(0, 5).forEach((winner) => {
+    const li = document.createElement("li");
+    li.textContent = winner; // Adiciona o nome do vencedor
+    historyList.appendChild(li);
+  });
+}
+
 });
