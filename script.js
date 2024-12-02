@@ -3,8 +3,9 @@ document.addEventListener("DOMContentLoaded", () => {
   const loginPage = document.getElementById("login-page");
   const mainPage = document.getElementById("main-page");
   const passwordInput = document.getElementById("password");
-  const participantsGrid = document.getElementById("participants-grid");
+  const participantsTable = document.getElementById("participants-table");
   const historyList = document.getElementById("history-list");
+  const clearHistoryButton = document.getElementById("clear-history-btn");
   const drawButton = document.getElementById("draw-btn");
 
   let participants = [];
@@ -25,40 +26,52 @@ document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("add-participant-btn").addEventListener("click", () => {
     const name = prompt("Digite o nome do participante:");
     if (name) {
-      participants.push(name);
-      updateParticipantsGrid();
+      participants.push({ name, lastWin: null });
+      updateParticipantsTable();
     }
   });
 
   // Remove Participant
   document.getElementById("remove-participant-btn").addEventListener("click", () => {
     const name = prompt("Digite o nome do participante a remover:");
-    participants = participants.filter((participant) => participant !== name);
-    updateParticipantsGrid();
+    participants = participants.filter((participant) => participant.name !== name);
+    updateParticipantsTable();
   });
 
-  // Update Participants Grid
-  function updateParticipantsGrid() {
-    participantsGrid.innerHTML = "";
-    participants.forEach((name) => {
-      const div = document.createElement("div");
-      div.textContent = name;
-      participantsGrid.appendChild(div);
-    });
+  // Update Participants Table
+  function updateParticipantsTable() {
+    participantsTable.innerHTML = "";
+    const rows = Math.ceil(participants.length / 10);
+    for (let i = 0; i < rows; i++) {
+      const row = document.createElement("tr");
+      participants.slice(i * 10, (i + 1) * 10).forEach((participant) => {
+        const cell = document.createElement("td");
+        cell.textContent = participant.name;
+        row.appendChild(cell);
+      });
+      participantsTable.appendChild(row);
+    }
   }
 
   // Draw Winner
   drawButton.addEventListener("click", () => {
-    if (participants.length === 0) {
-      alert("Nenhum participante para sortear!");
+    const today = new Date();
+    const eligible = participants.filter((participant) => {
+      return (
+        !participant.lastWin ||
+        (today - new Date(participant.lastWin)) / (1000 * 60 * 60 * 24) > 2
+      );
+    });
+    if (eligible.length === 0) {
+      alert("Nenhum participante elegível!");
       return;
     }
-    const winner = participants[Math.floor(Math.random() * participants.length)];
-    setTimeout(() => {
-      alert(`O vencedor é ${winner}!`);
-      history.unshift(winner);
-      updateHistory();
-    }, 1000);
+    const winner = eligible[Math.floor(Math.random() * eligible.length)];
+    winner.lastWin = today.toISOString();
+    history.unshift(winner.name);
+    updateParticipantsTable();
+    updateHistory();
+    setTimeout(() => alert(`O vencedor é ${winner.name}!`), 1000);
   });
 
   // Update History
@@ -71,9 +84,15 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Clear History
-  document.getElementById("clear-history-btn").addEventListener("click", () => {
-    history = [];
-    updateHistory();
+  // Clear History with Password
+  clearHistoryButton.addEventListener("click", () => {
+    const pass = prompt("Digite a senha para limpar o histórico:");
+    if (pass === "BRASIL") {
+      history = [];
+      updateHistory();
+      alert("Histórico limpo com sucesso!");
+    } else {
+      alert("Senha incorreta!");
+    }
   });
 });
