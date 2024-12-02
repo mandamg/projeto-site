@@ -67,12 +67,12 @@
             const errorElement = document.getElementById('error');
 
             if (passwordInput === senhaCorreta) {
-                document.getElementById('loginPage').style.display = 'none';
-                document.getElementById('mainPage').style.display = 'block';
+                document.getElementById('loginPage').style.display = 'none'; // Esconde a página de login
+                document.getElementById('mainPage').style.display = 'block'; // Mostra a página principal
                 carregarHistorico();
                 carregarParticipantes();
             } else {
-                errorElement.style.display = 'block';
+                errorElement.style.display = 'block'; // Exibe a mensagem de erro
             }
         }
 
