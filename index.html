@@ -4,36 +4,44 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Guilda BRASIL</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <!-- Login Page -->
     <div id="login-page">
-        <h1 class="title">BRASIL</h1>
-        <img src="dragon-symbol.png" alt="Dragão" class="dragon-symbol">
+        <h1>BRASIL</h1>
         <form id="login-form">
-            <label for="password">Senha:</label>
-            <input type="password" id="password" placeholder="Digite sua senha">
-            <button type="submit" class="btn">Entrar</button>
+            <input type="password" id="password" placeholder="Digite sua senha" required>
+            <button type="submit">Entrar</button>
         </form>
     </div>
 
-    <!-- Main Page -->
     <div id="main-page" style="display: none;">
-        <h1 class="title">Sorteio da Guilda BRASIL</h1>
-        <div class="buttons">
-            <button id="add-participant" class="round-btn">+</button>
-            <button id="remove-participant" class="round-btn">-</button>
-            <button id="clear-history" class="round-btn">🗑</button>
-        </div>
-        <div class="participants-grid" id="participants-grid"></div>
-        <button id="draw" class="btn">Sortear</button>
+        <header>
+            <h1>Guilda BRASIL</h1>
+        </header>
+        <main>
+            <div class="button-container">
+                <button id="add-participant">Adicionar</button>
+                <button id="clear-history">Limpar Histórico</button>
+                <button id="remove-participant">Remover</button>
+                <button id="start-draw">Sorteio</button>
+            </div>
+            <div id="participants-container"></div>
+            <div id="history">
+                <h2>Últimos ganhadores</h2>
+                <ul id="recent-winners"></ul>
+                <button id="view-more">Ver mais</button>
+            </div>
+        </main>
+    </div>
 
-        <h2>Últimos ganhadores:</h2>
-        <ul id="winners-list">
-            <!-- Últimos 5 ganhadores aparecem aqui -->
-        </ul>
-        <button id="view-more" class="btn">Ver Mais</button>
+    <!-- Modal para exibir o ganhador -->
+    <div id="winner-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Ganhador do Sorteio</h2>
+            <p id="winner-name"></p>
+        </div>
     </div>
 
     <script src="script.js"></script>
