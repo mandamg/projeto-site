@@ -107,7 +107,7 @@
 
                 // Exibe o ganhador
                 document.getElementById('ganhador').textContent = ganhadorAleatorio;
-                document.getElementById('ganhadorContainer').style.display = 'block'; // Aparece o ganhador
+                document.getElementById('ganhadorContainer').style.display = 'block'; // Aparece a bolha do ganhador
                 historico.push(ganhador);
                 localStorage.setItem('historico', JSON.stringify(historico));
                 carregarHistorico();
