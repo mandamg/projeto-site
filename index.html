@@ -3,47 +3,45 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Guilda BRASIL</title>
-    <link rel="stylesheet" href="style.css">
+    <title>BRASIL - Sorteio</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div id="login-page">
-        <h1>BRASIL</h1>
-        <form id="login-form">
-            <input type="password" id="password" placeholder="Digite sua senha" required>
-            <button type="submit">Entrar</button>
-        </form>
+    <div class="login-screen" id="login-screen">
+        <h1 class="title">BRASIL</h1>
+        <div class="dragon-placeholder">
+            <!-- Adicione aqui a imagem do dragão -->
+            <p>(Dragão aqui)</p>
+        </div>
+        <input type="password" id="password" placeholder="Digite sua senha">
+        <button class="btn login-btn" onclick="checkPassword()">Entrar</button>
     </div>
 
-    <div id="main-page" style="display: none;">
+    <div class="main-content hidden" id="main-content">
         <header>
-            <h1>Guilda BRASIL</h1>
+            <h1>Sorteio da Guilda BRASIL</h1>
         </header>
         <main>
-            <div class="button-container">
-                <button id="add-participant">Adicionar</button>
-                <button id="clear-history">Limpar Histórico</button>
-                <button id="remove-participant">Remover</button>
-                <button id="start-draw">Sorteio</button>
+            <div class="participants">
+                <h2>Participantes</h2>
+                <div class="grid" id="participant-grid"></div>
+                <div class="controls">
+                    <input type="text" id="new-participant" placeholder="Adicionar participante">
+                    <button class="round-btn add" onclick="addParticipant()">+</button>
+                    <button class="round-btn remove" onclick="removeParticipant()">-</button>
+                </div>
             </div>
-            <div id="participants-container"></div>
-            <div id="history">
-                <h2>Últimos ganhadores</h2>
-                <ul id="recent-winners"></ul>
-                <button id="view-more">Ver mais</button>
+            <div class="history">
+                <h2>Histórico de Ganhadores</h2>
+                <ul id="winners-list"></ul>
+                <button class="btn" onclick="showMoreWinners()">Ver mais</button>
             </div>
         </main>
+        <footer>
+            <button class="btn" onclick="clearHistory()">Limpar Histórico</button>
+            <button class="btn" onclick="runDraw()">Sorteio</button>
+        </footer>
     </div>
-
-    <!-- Modal para exibir o ganhador -->
-    <div id="winner-modal" class="modal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <h2>Ganhador do Sorteio</h2>
-            <p id="winner-name"></p>
-        </div>
-    </div>
-
-    <script src="script.js"></script>
+    <script src="scripts.js"></script>
 </body>
 </html>
