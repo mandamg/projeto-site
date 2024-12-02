@@ -1,75 +1,79 @@
-let participants = [];
-let winners = [];
+document.addEventListener("DOMContentLoaded", () => {
+  const passwordForm = document.getElementById("password-form");
+  const loginPage = document.getElementById("login-page");
+  const mainPage = document.getElementById("main-page");
+  const passwordInput = document.getElementById("password");
+  const participantsGrid = document.getElementById("participants-grid");
+  const historyList = document.getElementById("history-list");
+  const drawButton = document.getElementById("draw-btn");
 
-function checkPassword() {
-    const password = document.getElementById("password").value;
-    if (password === "admin" || password === "participant") {
-        document.getElementById("login-screen").classList.add("hidden");
-        document.getElementById("main-content").classList.remove("hidden");
+  let participants = [];
+  let history = [];
+
+  // Login
+  passwordForm.addEventListener("submit", (event) => {
+    event.preventDefault();
+    if (passwordInput.value === "BRASIL") {
+      loginPage.style.display = "none";
+      mainPage.style.display = "block";
     } else {
-        alert("Senha incorreta!");
+      alert("Senha incorreta!");
     }
-}
+  });
 
-function addParticipant() {
-    const name = document.getElementById("new-participant").value.trim();
-    if (name && !participants.includes(name)) {
-        participants.push(name);
-        updateGrid();
-        document.getElementById("new-participant").value = "";
+  // Add Participant
+  document.getElementById("add-participant-btn").addEventListener("click", () => {
+    const name = prompt("Digite o nome do participante:");
+    if (name) {
+      participants.push(name);
+      updateParticipantsGrid();
     }
-}
+  });
 
-function removeParticipant() {
-    const name = document.getElementById("new-participant").value.trim();
-    if (name && participants.includes(name)) {
-        participants = participants.filter(p => p !== name);
-        updateGrid();
-        document.getElementById("new-participant").value = "";
-    }
-}
+  // Remove Participant
+  document.getElementById("remove-participant-btn").addEventListener("click", () => {
+    const name = prompt("Digite o nome do participante a remover:");
+    participants = participants.filter((participant) => participant !== name);
+    updateParticipantsGrid();
+  });
 
-function updateGrid() {
-    const grid = document.getElementById("participant-grid");
-    grid.innerHTML = "";
-    participants.forEach((name, index) => {
-        const div = document.createElement("div");
-        div.textContent = name;
-        grid.appendChild(div);
+  // Update Participants Grid
+  function updateParticipantsGrid() {
+    participantsGrid.innerHTML = "";
+    participants.forEach((name) => {
+      const div = document.createElement("div");
+      div.textContent = name;
+      participantsGrid.appendChild(div);
     });
-}
+  }
 
-function runDraw() {
-    const eligibleParticipants = participants.filter(
-        name => !winners.slice(-2).includes(name)
-    );
-    if (eligibleParticipants.length === 0) {
-        alert("Nenhum participante elegível.");
-        return;
+  // Draw Winner
+  drawButton.addEventListener("click", () => {
+    if (participants.length === 0) {
+      alert("Nenhum participante para sortear!");
+      return;
     }
-    const winner = eligibleParticipants[Math.floor(Math.random() * eligibleParticipants.length)];
+    const winner = participants[Math.floor(Math.random() * participants.length)];
     setTimeout(() => {
-        alert(`O vencedor é: ${winner}`);
-        winners.push(winner);
-        updateWinnersList();
+      alert(`O vencedor é ${winner}!`);
+      history.unshift(winner);
+      updateHistory();
     }, 1000);
-}
+  });
 
-function updateWinnersList() {
-    const list = document.getElementById("winners-list");
-    list.innerHTML = "";
-    winners.slice(-5).forEach(winner => {
-        const li = document.createElement("li");
-        li.textContent = winner;
-        list.appendChild(li);
+  // Update History
+  function updateHistory() {
+    historyList.innerHTML = "";
+    history.slice(0, 5).forEach((winner) => {
+      const li = document.createElement("li");
+      li.textContent = winner;
+      historyList.appendChild(li);
     });
-}
+  }
 
-function showMoreWinners() {
-    alert("Vencedores anteriores: " + winners.join(", "));
-}
-
-function clearHistory() {
-    winners = [];
-    updateWinnersList();
-}
+  // Clear History
+  document.getElementById("clear-history-btn").addEventListener("click", () => {
+    history = [];
+    updateHistory();
+  });
+});
