@@ -5,11 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sorteio com Login</title>
     <link rel="stylesheet" href="styles.css"> <!-- Vincula o arquivo CSS -->
-    <style>
-        body { font-family: Arial, sans-serif; margin: 20px; }
-        .hidden { display: none; }
-        .winner { color: green; font-weight: bold; }
-    </style>
 </head>
 <body>
     <div id="loginPage">
@@ -21,17 +16,36 @@
 
     <div id="mainPage" class="hidden">
         <h2>Sorteio</h2>
-        <label for="nome">Nome:</label>
-        <input type="text" id="nome" placeholder="Digite seu nome" />
-        <button onclick="adicionarNome()">Adicionar ao sorteio</button>
+        <button onclick="mostrarAdicionarParticipante()">Adicionar Participante</button> <!-- Botão para adicionar participante -->
+        <button onclick="limparHistorico()">Limpar Histórico</button> <!-- Botão para limpar histórico -->
         <br><br>
         <button onclick="sortear()">Sortear</button>
         <h3>Ganhador:</h3>
         <p id="ganhador" class="winner"></p>
         <h3>Participantes:</h3>
-        <ul id="participantesList"></ul> <!-- A lista de participantes -->
+        <ul id="participantesList"></ul>
         <h3>Histórico de Ganhadores:</h3>
         <ul id="historico"></ul>
+
+        <!-- Aba flutuante para adicionar participante -->
+        <div id="adicionarParticipanteModal" class="modal">
+            <div class="modal-content">
+                <span class="close" onclick="fecharAdicionarParticipante()">&times;</span>
+                <h3>Adicionar Participante</h3>
+                <input type="text" id="nome" placeholder="Digite o nome" />
+                <button onclick="adicionarNome()">Adicionar</button>
+            </div>
+        </div>
+
+        <!-- Modal para confirmação de senha ao limpar o histórico -->
+        <div id="confirmarLimpezaModal" class="modal">
+            <div class="modal-content">
+                <span class="close" onclick="fecharConfirmarLimpeza()">&times;</span>
+                <h3>Confirmar Limpeza de Histórico</h3>
+                <input type="password" id="senhaLimpeza" placeholder="Digite a senha para confirmar" />
+                <button onclick="confirmarLimpeza()">Limpar Histórico</button>
+            </div>
+        </div>
     </div>
 
     <script>
@@ -45,7 +59,7 @@
                 document.getElementById('loginPage').classList.add('hidden');
                 document.getElementById('mainPage').classList.remove('hidden');
                 carregarHistorico();
-                carregarParticipantes();  // Exibe a lista de participantes
+                carregarParticipantes();
             } else {
                 document.getElementById('error').style.display = 'block';
             }
@@ -57,7 +71,8 @@
                 participantes.push(nome);
                 localStorage.setItem('participantes', JSON.stringify(participantes));
                 alert(`${nome} foi adicionado ao sorteio!`);
-                carregarParticipantes();  // Atualiza a lista de participantes
+                carregarParticipantes();
+                fecharAdicionarParticipante(); // Fecha a aba flutuante
             }
         }
 
@@ -68,7 +83,6 @@
                 return (dataAtual - dataGanhou) / (1000 * 3600 * 24) <= 2;
             });
 
-            // Filtra participantes que não ganharam nos últimos 2 dias
             const participantesDisponiveis = participantes.filter(nome => {
                 return !ganhadoresRecentes.some(ganhador => ganhador.nome === nome);
             });
@@ -78,11 +92,9 @@
                 return;
             }
 
-            // Sorteio
             const ganhador = participantesDisponiveis[Math.floor(Math.random() * participantesDisponiveis.length)];
             document.getElementById('ganhador').textContent = ganhador;
 
-            // Adiciona ao histórico de ganhadores
             historico.push({ nome: ganhador, data: new Date() });
             localStorage.setItem('historico', JSON.stringify(historico));
             carregarHistorico();
@@ -90,7 +102,7 @@
 
         function carregarParticipantes() {
             const participantesList = document.getElementById('participantesList');
-            participantesList.innerHTML = '';  // Limpa a lista de participantes
+            participantesList.innerHTML = '';
             if (participantes.length > 0) {
                 participantes.forEach(nome => {
                     const li = document.createElement('li');
@@ -113,6 +125,35 @@
                 });
             } else {
                 historicoUl.innerHTML = '<li>Sem histórico de ganhadores.</li>';
+            }
+        }
+
+        function mostrarAdicionarParticipante() {
+            document.getElementById('adicionarParticipanteModal').style.display = 'block';
+        }
+
+        function fecharAdicionarParticipante() {
+            document.getElementById('adicionarParticipanteModal').style.display = 'none';
+        }
+
+        function limparHistorico() {
+            document.getElementById('confirmarLimpezaModal').style.display = 'block';
+        }
+
+        function fecharConfirmarLimpeza() {
+            document.getElementById('confirmarLimpezaModal').style.display = 'none';
+        }
+
+        function confirmarLimpeza() {
+            const senhaInput = document.getElementById('senhaLimpeza').value;
+            if (senhaInput === senhaCorreta) {
+                historico = [];
+                localStorage.setItem('historico', JSON.stringify(historico));
+                carregarHistorico();
+                alert('Histórico limpo com sucesso!');
+                fecharConfirmarLimpeza();
+            } else {
+                alert('Senha incorreta!');
             }
         }
     </script>
